@@ -54,12 +54,19 @@ public class HomeController implements Initializable {
             if(sortBtn.getText().equals("Sort (asc)")) {
                 // TODO sort observableMovies ascending
                 sortBtn.setText("Sort (desc)");
+
             } else {
                 // TODO sort observableMovies descending
                 sortBtn.setText("Sort (asc)");
             }
         });
 
+
+    }
+
+    public ObservableList<Movie> sortAscending(ObservableList<Movie> list) {
+        list.sorted();
+        return list;
 
     }
 }
