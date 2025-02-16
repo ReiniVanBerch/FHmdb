@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -63,10 +64,10 @@ public class HomeController implements Initializable {
 
 
     }
-
+    //sort + filter in controller
     public ObservableList<Movie> sortAscending(ObservableList<Movie> list) {
-        list.sorted();
-        return list;
+        //list.sort(Comparator.comparing());
 
+        return list;
     }
 }
