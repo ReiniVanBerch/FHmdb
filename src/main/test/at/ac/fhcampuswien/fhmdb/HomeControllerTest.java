@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
@@ -15,27 +16,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HomeControllerTest {
     @Test
-    @DisplayName("Testet den Initializier")
-    public void test_the_initializer(){
+    @DisplayName("Movie: Testet den Initializier")
+    public void movie_test_the_initializer(){
         List<Movie> test =   Movie.initializeMovies();
         assertNotNull(test);
     }
     @Test
-    @DisplayName("Check the getter for Description")
-    public void check_if_the_get_desc_returns_a_value(){
+    @DisplayName("Movie: Check the getter for Description")
+    public void movie_check_if_the_get_desc_returns_a_value(){
         Movie.initializeMovies();
         List<Movie> test =   Movie.initializeMovies();
         String desc =test.get(0).getDescription();
         assertEquals("a captain is on the search for the last surviving son of a family", desc);
     }
     @Test
-    @DisplayName("Check the getter for Title")
-    public void check_if_the_get_title_returns_a_value(){
+    @DisplayName("Movie: Check the getter for Title")
+    public void movie_check_if_the_get_title_returns_a_value(){
         Movie.initializeMovies();
         List<Movie> test =   Movie.initializeMovies();
         String title =test.get(0).getTitle();
         assertEquals("Saving Private Ryan", title);
     }
+
 
 
 
