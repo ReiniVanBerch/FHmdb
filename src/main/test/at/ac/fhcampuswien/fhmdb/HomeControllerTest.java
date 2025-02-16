@@ -126,6 +126,5 @@ class HomeControllerTest {
     @Test
     @DisplayName("checks if searching for a word turns up all possible results")
     public void check_if_searching_works() {
-
     }
 }

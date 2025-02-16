@@ -67,6 +67,7 @@ public class HomeController implements Initializable {
     //sort + filter in controller
     public ObservableList<Movie> sortAscending(ObservableList<Movie> list) {
         //list.sort(Comparator.comparing());
+
         return list;
     }
 }

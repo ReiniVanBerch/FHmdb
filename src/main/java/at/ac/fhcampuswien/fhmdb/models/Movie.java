@@ -50,7 +50,6 @@ public class Movie {
 
     @Override
     public String toString() {
-
         return "Title: " + this.getTitle() + " Description: " + this.getDescription() + "Genre: " + this.getGenres();
     }
 
