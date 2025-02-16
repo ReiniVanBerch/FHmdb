@@ -36,6 +36,14 @@ public class Movie {
         movies.add(new Movie("We will never be royals", "a family of five is on the search for their ancestry, because their grandparents always lied to them about being from royal blood",List.of(Genre.DOCUMENTARY,Genre.MUSICAL)));
         movies.add(new Movie("Wrong Direction", "two fashion-loving formular 1 drivers search for a way out of the f1 circus, sadly they trust the wrong fashion bran",List.of(Genre.DRAMA,Genre.MYSTERY)));
         movies.add(new Movie("The greatest Snowman","a large snowman sings in a movie that is set in an ice world, where everybody is different, but also accepted",List.of(Genre.DRAMA,Genre.ANIMATION,Genre.MUSICAL)));
+        movies.add(new Movie("Good Boys","A movie about a group of dogs, trying to be good, so they can get praise",List.of(Genre.ACTION,Genre.ADVENTURE)));
+        movies.add(new Movie("Funny Games","Two boys visit a family and try to entertain them, based on a real event",List.of(Genre.BIOGRAPHY,Genre.COMEDY)));
+        movies.add(new Movie("Slow and boring","a group of bicyclist are investigated by an undercover cop",List.of(Genre.CRIME,Genre.FAMILY)));
+        movies.add(new Movie("Chabin in the forrest","A romantiv weekend turns into the horror of a century when the gargoyles in the hill wake up for their annual meeting",List.of(Genre.FANTASY,Genre.HORROR,Genre.ROMANCE)));
+        movies.add(new Movie("Triathlon - the documentation","One of sports greatest moment as you watch a live recorded triathlon for 7 hours",List.of(Genre.SPORT)));
+        movies.add(new Movie("Dont look down", "A billionaire wants to conquer the inner earth, as he realisied that mars is very far from earth",List.of(Genre.SCIENCE_FICTION,Genre.HISTORY)));
+        movies.add(new Movie("Complex Instinct","A detective is searching for a murderer, the suspect is an introverted computer scientist that plays games all the time",List.of(Genre.THRILLER)));
+        movies.add(new Movie("The Good, The Bad and the Beautiful","A group of cowboys are on the search for the treasure of the confederacy, as they get nearer to the treasure, their paths cross even more often",List.of(Genre.WESTERN)));
 
         return movies;
     }

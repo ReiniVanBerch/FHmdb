@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HomeControllerTest {
     @Test
-    @DisplayName("Testet den Initializier")
-    public void test_the_initializer(){
+    @DisplayName("Movie: Testet den Initializier")
+    public void movie_test_the_initializer(){
         List<Movie> test =   Movie.initializeMovies();
         assertNotNull(test);
     }
     @Test
-    @DisplayName("Check the getter for Description")
-    public void check_if_the_get_desc_returns_a_value(){
+    @DisplayName("Movie: Check the getter for Description")
+    public void movie_check_if_the_get_desc_returns_a_value(){
         Movie.initializeMovies();
         List<Movie> test =   Movie.initializeMovies();
         String desc =test.get(0).getDescription();
         assertEquals("a captain is on the search for the last surviving son of a family", desc);
     }
     @Test
-    @DisplayName("Check the getter for Title")
-    public void check_if_the_get_title_returns_a_value(){
+    @DisplayName("Movie: Check the getter for Title")
+    public void movie_check_if_the_get_title_returns_a_value(){
         Movie.initializeMovies();
         List<Movie> test =   Movie.initializeMovies();
         String title =test.get(0).getTitle();
@@ -43,8 +43,7 @@ class HomeControllerTest {
 
     //checks equals method
 
-/*
-//TODO: what if we have mib 1, 2 & 3
+/* /*
     @Test
     @DisplayName("checks if the list is filtered by searching a title name")
     public void check_if_list_is_filtered_by_title() {
@@ -67,9 +66,10 @@ class HomeControllerTest {
 
     }
 
- */
 
-    /*
+
+
+
     @Test
     @DisplayName("checks if list is filtered by searching a summary text")
     public void check_if_list_is_filtered_by_searching_summaryText() {
@@ -124,7 +124,7 @@ class HomeControllerTest {
     }
 
     @Test
-    @DisplayName("checks if searching for a word turn up allaaaa7uui results")
+    @DisplayName("checks if searching for a word turns up all possible results")
     public void check_if_searching_works() {
 
     }
