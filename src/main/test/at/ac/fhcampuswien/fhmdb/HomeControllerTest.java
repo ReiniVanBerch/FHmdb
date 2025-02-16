@@ -128,5 +128,4 @@ class HomeControllerTest {
     public void check_if_searching_works() {
 
     }
-
 }
