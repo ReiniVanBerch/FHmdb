@@ -35,7 +35,7 @@ class HomeControllerTest {
         Movie.initializeMovies();
         List<Movie> test =   Movie.initializeMovies();
         String title =test.get(0).getTitle();
-        assertEquals("Saving Private Ryan", title);
+        assertEquals("Saving Private Jamey Ryan", title);
     }
 
 
