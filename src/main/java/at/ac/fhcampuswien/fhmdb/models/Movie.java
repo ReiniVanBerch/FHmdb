@@ -44,6 +44,8 @@ public class Movie {
         movies.add(new Movie("Dont look down", "A billionaire wants to conquer the inner earth, as he realisied that mars is very far from earth",List.of(Genre.SCIENCE_FICTION,Genre.HISTORY)));
         movies.add(new Movie("Complex Instinct","A detective is searching for a murderer, the suspect is an introverted computer scientist that plays games all the time",List.of(Genre.THRILLER)));
         movies.add(new Movie("The Good, The Bad and the Beautiful","A group of cowboys are on the search for the treasure of the confederacy, as they get nearer to the treasure, their paths cross even more often",List.of(Genre.WESTERN)));
+        movies.add(new Movie("This is us", "A look at Niall, Zayn, Liam, Louis, and Harry's meteoric rise to fame, from their humble hometown beginnings and competing on the X-Factor, to conquering the world and performing at London's famed O2 Arena.", List.of(Genre.DOCUMENTARY)));
+        movies.add(new Movie("All Of Those Voices", "A documentary film about English singer-songwriter Louis Tomlinson's personal journey of transitioning from a member of One Direction to a solo musician.", List.of(Genre.BIOGRAPHY, Genre.DOCUMENTARY)));
 
         return movies;
     }
