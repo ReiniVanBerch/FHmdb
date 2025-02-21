@@ -84,7 +84,8 @@ class HomeControllerTest {
     @DisplayName("checks if list is filtered without having to consider capitalisation")
     public void check_if_list_is_filtered_without_capitalisation_accuracy() {
         HomeController test = new HomeController();
-        //test.
+
+
     }
 
     @Test
@@ -114,6 +115,12 @@ class HomeControllerTest {
     @Test
     @DisplayName("checks if list is sorted in descending order")
     public void check_if_unfiltered_list_is_descending() {
+
+    }
+
+    @Test
+    @DisplayName("checks if initial list is sorted in ascending order")
+    public void check_if_initial_list_is_ascending() {
 
     }
 
