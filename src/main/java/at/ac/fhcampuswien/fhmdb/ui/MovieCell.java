@@ -19,6 +19,7 @@ public class MovieCell extends ListCell<Movie> {
         super.updateItem(movie, empty);
 
         if (empty || movie == null) {
+            setGraphic(null);
             setText(null);
         } else {
             this.getStyleClass().add("movie-cell");
