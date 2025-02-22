@@ -143,4 +143,8 @@ public class HomeController implements Initializable {
     public void searchBtnClicked() {
         updateUIAfterFilter();
     }
+
+    public ObservableList<Movie> getObservableMovies() {
+        return observableMovies;
+    }
 }
