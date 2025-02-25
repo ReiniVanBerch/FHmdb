@@ -8,7 +8,6 @@ import java.util.Objects;
 public class Movie {
     private String title;
     private String description;
-    // TODO add more properties here
     private List<Genre> genres;
     public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
@@ -28,7 +27,6 @@ public class Movie {
 
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
-        // TODO add some dummy data here
         movies.add(new Movie("Saving Private Jamey Ryan", "a captain is on the search for the last surviving son of a family", List.of(Genre.WAR)));
         movies.add(new Movie("Snow White","seven dwarf rise a orphan child that they found in the woods", List.of(Genre.DOCUMENTARY)));
         movies.add(new Movie("New Kids Turbo","crazy people from the netherlands decide that their life needs a change",List.of(Genre.HISTORY)));
