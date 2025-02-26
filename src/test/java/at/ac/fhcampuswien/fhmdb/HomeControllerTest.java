@@ -2,11 +2,11 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import org.junit.jupiter.api.Test;
-
-
 import org.junit.jupiter.api.DisplayName;
 
 
