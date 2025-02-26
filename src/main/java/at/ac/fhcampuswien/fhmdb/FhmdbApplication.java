@@ -22,8 +22,8 @@ public class FhmdbApplication extends Application {
     }
 
     public static void main(String[] args) {
-        List<Movie> movies = Movie.initializeMovies();
-        System.out.println(movies.get(0).toString());;
-        //launch();
+        //List<Movie> movies = Movie.initializeMovies();
+        //System.out.println(movies.get(0).toString());;
+        launch();
     }
 }
