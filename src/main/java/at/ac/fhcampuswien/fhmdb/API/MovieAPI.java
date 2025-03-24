@@ -2,12 +2,9 @@ package at.ac.fhcampuswien.fhmdb.API;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import okhttp3.*;
-import org.junit.Test;
-
 import java.io.IOException;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+
 
 
 public class MovieAPI {
