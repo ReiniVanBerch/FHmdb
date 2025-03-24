@@ -2,11 +2,11 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import org.junit.jupiter.api.Test;
-
-
 import org.junit.jupiter.api.DisplayName;
 
 
@@ -48,6 +48,7 @@ class HomeControllerTest {
     @DisplayName("checks if list is filtered without having to consider capitalisation")
     public void check_if_list_is_filtered_without_capitalisation_accuracy() {
         HomeController test = new HomeController();
+
         test.initializeLogic();
         String testQuery = "di";
         List<Movie> actualList = test.filterSearchField(testQuery, Movie.initializeMovies());

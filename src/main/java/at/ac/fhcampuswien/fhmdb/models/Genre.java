@@ -21,7 +21,4 @@ public enum Genre {
     THRILLER,
     WAR,
     WESTERN
-
-
-
 }

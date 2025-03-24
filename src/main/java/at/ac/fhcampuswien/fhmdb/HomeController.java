@@ -40,8 +40,8 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       initializeLogic();
-       initializeUI();
+        initializeLogic();
+        initializeUI();
     }
 
     public void initializeLogic() {
@@ -51,7 +51,7 @@ public class HomeController implements Initializable {
         //initial sort state
         sortAscending(observableMovies);
 
-        // TODO add event handlers to buttons and call the regarding methods
+
         // either set event handlers in the fxml file (onAction) or add them here
 
         // Sort button example:
@@ -97,14 +97,13 @@ public class HomeController implements Initializable {
 
     public List<Movie> filterGenre(Object genre, List<Movie> moviesList) {
         System.out.println(genre);
-
-      if (genre == null || genre.toString().equals("all genres")) {
-          return moviesList;
-      } else {
+        if (genre == null || genre.toString().equals("all genres")) {
+        return moviesList;
+        } else {
             return moviesList.stream()
                     .filter(movie -> movie.getGenres().contains(genre))
                     .toList();
-      }
+        }
     }
 
     public List<Movie> filterSearchField(String searchQuery, List<Movie> moviesList) {
