@@ -6,24 +6,77 @@ import java.util.List;
 import java.util.Objects;
 
 public class Movie {
+    private String id;
     private String title;
-    private String description;
     private List<Genre> genres;
+    private int releaseYear;
+    private String description;
+    private String imgURL;
+    private int lengthInMinutes;
+    private List<String> directors;
+    private List<String> writers;
+    private List<String> mainCast;
+    private double rating;
+
     public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
         this.description = description;
         this.genres =genres;
     }
 
+    public Movie(String id, String title, List<Genre> genres, int releaseYear, String description, String imgURL, int lengthInMinutes, double rating) {
+        this.id = id;
+        this.title = title;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.imgURL = imgURL;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public List<Genre> getGenres(){ return genres; }
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    public List<String> getDirectors() {
+        return directors;
+    }
+
+    public List<String> getWriters() {
+        return writers;
+    }
+
+    public List<String> getMainCast() {
+        return mainCast;
+    }
+
+    public double getRating() {
+        return rating;
+    }
 
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
