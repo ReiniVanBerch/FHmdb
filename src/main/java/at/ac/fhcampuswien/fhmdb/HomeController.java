@@ -186,7 +186,7 @@ public class HomeController implements Initializable {
     //gibt jene Filme zurück, die zwischen zwei gegebenen Jahren veröffentlicht wurden.
     public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear){
         List<Movie> result = new ArrayList<>();
-
+        //these 2 are just temporary, remove after adding the function
         movies.add(new Movie("1","Saving Private Jamey Ryan",List.of(Genre.WAR),1998, "a captain is on the search for the last surviving son of a family", "URL1",220,List.of("Tom Hanks","Steven Spielberg"),List.of("Tom Hanks","Vin Diesel"),List.of("Tom Hanks"),3.7 ));
         movies.add(new Movie("2","Snow White",List.of(Genre.DOCUMENTARY),1970,"seven dwarf rise a orphan child that they found in the woods","URL2", 123,2.1 ));
 
