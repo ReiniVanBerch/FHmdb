@@ -13,10 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
     @FXML
@@ -31,11 +30,11 @@ public class HomeController implements Initializable {
     @FXML
     public JFXComboBox genreComboBox;
 
-    //@FXML
-    //public JFXComboBox releaseyearComboBox;
+    @FXML
+    public JFXComboBox releaseyearComboBox;
 
-    //@FXML
-    //public JFXComboBox ratingComboBox;
+    @FXML
+    public JFXComboBox ratingComboBox;
 
     @FXML
     public JFXButton sortBtn;
@@ -75,6 +74,14 @@ public class HomeController implements Initializable {
         genreComboBox.getItems().addAll(genres);
         genreComboBox.setPromptText("Filter by Genre");
 
+        //add releaseyears
+        releaseyearComboBox.getItems().add("all release years");
+       // releaseyearComboBox.getItems().addAll(allMovies.sort(Comparator.comparing(Movie::getReleaseYear)).release
+         //       );
+        releaseyearComboBox.setPromptText("Filter by release year");
+        //ratings button
+        ratingComboBox.getItems().add("all ratings");
+        ratingComboBox.setPromptText("Filter by ratings");
         //set initial sort button text
         sortBtn.setText("Sort (desc)");
 
@@ -152,4 +159,38 @@ public class HomeController implements Initializable {
     public ObservableList<Movie> getObservableMovies() {
         return observableMovies;
     }
+    //still to do return most popular actor of sent movie
+    public String getMostPopularActor(List<Movie> movies){
+        String actor = movies.stream()
+                .filter(movie -> movie.getMainCast() != null)
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("");
+        return actor;
+    }
+    //filtert auf den längsten Titel der übergebenen Filme und gibt die Anzahl der Buchstaben des Titels zurück
+    public int getLongestMovieTitle(List<Movie> movies){
+
+        return 2;
+    }
+    //gibt die Anzahl der Filme eines bestimmten Regisseurs zurück.
+    public long countMoviesFrom(List<Movie> movies, String director){
+
+        return 4;
+    }
+
+    //gibt jene Filme zurück, die zwischen zwei gegebenen Jahren veröffentlicht wurden.
+    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear){
+        List<Movie> result = new ArrayList<>();
+
+        movies.add(new Movie("1","Saving Private Jamey Ryan",List.of(Genre.WAR),1998, "a captain is on the search for the last surviving son of a family", "URL1",220,List.of("Tom Hanks","Steven Spielberg"),List.of("Tom Hanks","Vin Diesel"),List.of("Tom Hanks"),3.7 ));
+        movies.add(new Movie("2","Snow White",List.of(Genre.DOCUMENTARY),1970,"seven dwarf rise a orphan child that they found in the woods","URL2", 123,2.1 ));
+
+        return result;
+    }
+
 }

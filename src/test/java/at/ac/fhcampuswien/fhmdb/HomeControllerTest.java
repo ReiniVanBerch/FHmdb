@@ -230,6 +230,22 @@ class HomeControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Checks if the Actor playing in the most movies gets returned")
+    public void check_actor_with_most_movies(){
+        HomeController test = new HomeController();
+        List<Movie> testList = new ArrayList<>();
+        testList.add(new Movie("6","Wrong Direction",List.of(Genre.DOCUMENTARY,Genre.MUSICAL), 2022, "two fashion-loving formular 1 drivers search for a way out of the f1 circus, sadly they trust the wrong fashion bran","URL6",90,4.5));
+        testList.add(new Movie("16","This is us",List.of(Genre.DOCUMENTARY),2013, "A look at Niall, Zayn, Liam, Louis, and Harry's meteoric rise to fame, from their humble hometown beginnings and competing on the X-Factor, to conquering the world and performing at London's famed O2 Arena.","https://en.wikipedia.org/wiki/File:One_Direction_This_is_Us_Theatrical_Poster.jpg",92,List.of("Morgan Spurlock"),List.of("Morgan Spurlock","Adam Milano","Ben Winston","Simon Cowell"),List.of("Niall Horan","Zayn Malik","Liam Payne","Harry Styles","Louis Tomlinson"),4.7 ));
+        testList.add(new Movie("17","All Of Those Voices",List.of(Genre.BIOGRAPHY, Genre.DOCUMENTARY),2023, "A documentary film about English singer-songwriter Louis Tomlinson's personal journey of transitioning from a member of One Direction to a solo musician.","https://upload.wikimedia.org/wikipedia/en/f/f5/All_of_those_voices.jpg",108,List.of("Charlie Lightning"),List.of("Stefan Demetriou"),List.of("Louis Tomlinson"),4.3 ));
+
+        String actual = test.getMostPopularActor(testList);
+        String expected = "Louis Tomlinson";
+
+        assertEquals(expected, actual);
+
+
+    }
     /*@Test
     @DisplayName("checks if a filtered list can be reverted back in its original state")
     public void check_if_filtered_list_is_unfiltered_again() {
