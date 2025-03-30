@@ -82,7 +82,7 @@ public class MovieTest {
 
         List<Movie> actual = Movie.initializeMovies();
 
-        assertNotEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
