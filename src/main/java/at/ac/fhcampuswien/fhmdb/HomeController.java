@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -10,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -31,7 +33,7 @@ public class HomeController implements Initializable {
     public JFXComboBox genreComboBox;
 
     @FXML
-    public JFXComboBox releaseyearComboBox;
+    public JFXComboBox releaseYearComboBox;
 
     @FXML
     public JFXComboBox ratingComboBox;
@@ -75,15 +77,15 @@ public class HomeController implements Initializable {
         genreComboBox.setPromptText("Filter by Genre");
 
         //add releaseyears
-        releaseyearComboBox.getItems().add("all release years");
+        releaseYearComboBox.getItems().add("all release years");
        // releaseyearComboBox.getItems().addAll(allMovies.sort(Comparator.comparing(Movie::getReleaseYear)).release
          //       );
         Integer[] years = new Integer[125];
         for (int i = 0; i < years.length; i++) {
             years[i] = 1900 + i;
         }
-        releaseyearComboBox.getItems().addAll(years);
-        releaseyearComboBox.setPromptText("Filter by release year");
+        releaseYearComboBox.getItems().addAll(years);
+        releaseYearComboBox.setPromptText("Filter by release year");
         //ratings button
         ratingComboBox.getItems().add("all ratings");
         Integer[] ratings = new Integer[11];
@@ -99,6 +101,45 @@ public class HomeController implements Initializable {
         sortBtn.setOnAction(actionEvent -> sort());
         searchBtn.setOnAction(actionEvent -> searchBtnClicked());
 
+    }
+
+    public void searchBtnClicked(){
+        try {
+
+
+            MovieAPI api = new MovieAPI();
+
+            String title, genre;
+            int releaseYear;
+            double rating;
+
+            title = searchField.getText();
+
+            Object g = genreComboBox.getSelectionModel().getSelectedItem();
+            if(g != null){
+                genre = g.toString();
+                if(genre.toLowerCase() == "all genres"){genre = null;}
+            }
+            else {genre = null;}
+
+
+            try{releaseYear = (int) releaseYearComboBox.getSelectionModel().getSelectedItem();}
+            catch (Exception e) {releaseYear = 0;}
+
+            try{int ratingInt = ((int) ratingComboBox.getSelectionModel().getSelectedItem());
+            rating = ratingInt;}
+            catch (Exception e) {
+                System.out.println(e);
+                rating = 0;}
+
+            observableMovies.clear();
+            observableMovies.addAll(api.getMovies(title, genre, releaseYear, rating));
+        } catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.showAndWait();
+        }
     }
 
     public void sort() {
@@ -119,6 +160,44 @@ public class HomeController implements Initializable {
         list.sort(Comparator.comparing(Movie::getTitle).reversed());
     }
 
+    //still to do return most popular actor of sent movie
+    public String getMostPopularActor(List<Movie> movies){
+        String actor = movies.stream()
+                .filter(movie -> movie.getMainCast() != null)
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("");
+        return actor;
+    }
+    //filtert auf den längsten Titel der übergebenen Filme und gibt die Anzahl der Buchstaben des Titels zurück
+    public int getLongestMovieTitle(List<Movie> movies){
+        return movies.stream()
+                .mapToInt(movie -> movie.getTitle().length())
+                .max()
+                .orElse(0);
+    }
+    //gibt die Anzahl der Filme eines bestimmten Regisseurs zurück.
+    public long countMoviesFrom(List<Movie> movies, String director){
+        return movies.stream()
+                .filter(movie -> movie.getDirectors() != null)
+                .filter(movie -> movie.getDirectors().contains(director))
+                .count();
+
+    }
+
+    //gibt jene Filme zurück, die zwischen zwei gegebenen Jahren veröffentlicht wurden.
+    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear){
+
+        return movies.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
+                .collect(Collectors.toList());
+    }
+
+    /*
     public List<Movie> filterGenre(Object genre, List<Movie> moviesList) {
         System.out.println(genre);
         if (genre == null || genre.toString().equals("all genres")) {
@@ -170,41 +249,10 @@ public class HomeController implements Initializable {
     public ObservableList<Movie> getObservableMovies() {
         return observableMovies;
     }
-    //still to do return most popular actor of sent movie
-    public String getMostPopularActor(List<Movie> movies){
-        String actor = movies.stream()
-                .filter(movie -> movie.getMainCast() != null)
-                .flatMap(movie -> movie.getMainCast().stream())
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse("");
-        return actor;
-    }
-    //filtert auf den längsten Titel der übergebenen Filme und gibt die Anzahl der Buchstaben des Titels zurück
-    public int getLongestMovieTitle(List<Movie> movies){
-        return movies.stream()
-                .mapToInt(movie -> movie.getTitle().length())
-                .max()
-                .orElse(0);
-    }
-    //gibt die Anzahl der Filme eines bestimmten Regisseurs zurück.
-    public long countMoviesFrom(List<Movie> movies, String director){
-        return movies.stream()
-                .filter(movie -> movie.getDirectors() != null)
-                .filter(movie -> movie.getDirectors().contains(director))
-                .count();
+    */
 
-    }
 
-    //gibt jene Filme zurück, die zwischen zwei gegebenen Jahren veröffentlicht wurden.
-    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear){
 
-        return movies.stream()
-                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
-                .collect(Collectors.toList());
-    }
+
 
 }

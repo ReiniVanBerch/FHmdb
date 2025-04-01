@@ -7,6 +7,7 @@ module at.ac.fhcampuswien.fhmdb {
     requires okhttp3;
     requires junit;
     requires hamcrest.core;
+    requires com.google.gson;
 
 
     opens at.ac.fhcampuswien.fhmdb to javafx.fxml;
