@@ -76,17 +76,4 @@ public class MovieAPI {
 
         return gson.fromJson(movieAsString, Movie.class);
     }
-
-
-    public static void main(String[] args) throws IOException {
-        MovieAPI example = new MovieAPI();
-
-        //UUID uuid = UUID.fromString("81d317b0-29e5-4846-97a6-43c07f3edf4a");
-        //String response = example.getMovie(uuid);
-        //String response = example.getMovies().get(0).toString();
-
-        String response = example.getMovies("d", null, 1994, 0).get(0).toString();
-
-        System.out.println(response);
-    }
 }

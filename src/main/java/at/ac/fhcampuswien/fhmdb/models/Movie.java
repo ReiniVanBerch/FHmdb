@@ -62,7 +62,7 @@ public class Movie {
 
     //Konstruktor für Movie mit director, writer und main cast
     public Movie(String title, List<Genre> genres, int releaseYear, String description, String imgURL, int lengthInMinutes,List<String> directors, List<String> writers, List<String> maincast, double rating) {
-        this(UUID.randomUUID(), title, genres, releaseYear, description, imgURL, lengthInMinutes, rating);
+        this(UUID.randomUUID(), title, genres, releaseYear, description, imgURL, lengthInMinutes, directors, writers, maincast, rating);
     }
 
 

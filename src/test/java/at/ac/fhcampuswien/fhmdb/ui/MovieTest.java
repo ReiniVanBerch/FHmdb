@@ -30,7 +30,7 @@ public class MovieTest {
     @Test
     @DisplayName("Checking the initilizer")
     public void movie_check_initializeMovies_same(){
-        List<Movie> movies = new ArrayList<>(Arrays.asList(
+        List<Movie> expected = new ArrayList<>(Arrays.asList(
                 new Movie("Saving Private Jamey Ryan",List.of(Genre.WAR),1998, "a captain is on the search for the last surviving son of a family", "URL1",220,3.7 ),
                 new Movie("Snow White",List.of(Genre.DOCUMENTARY),1970,"seven dwarf rise a orphan child that they found in the woods","URL2", 123,2.1 ),
                 new Movie("New Kids Turbo",List.of(Genre.HISTORY),2002,"crazy people from the netherlands decide that their life needs a change","URL3", 133,1.2),
@@ -52,9 +52,9 @@ public class MovieTest {
 
         ));
 
-        List<Movie> movieInit = Movie.initializeMovies();
+        List<Movie> actual = Movie.initializeMovies();
 
-        assertEquals(movies, movieInit);
+        assertEquals(expected, actual);
     }
 
     @Test

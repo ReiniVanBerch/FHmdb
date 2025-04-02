@@ -173,6 +173,7 @@ public class HomeController implements Initializable {
                 .orElse("");
         return actor;
     }
+
     //filtert auf den längsten Titel der übergebenen Filme und gibt die Anzahl der Buchstaben des Titels zurück
     public int getLongestMovieTitle(List<Movie> movies){
         return movies.stream()
@@ -180,6 +181,7 @@ public class HomeController implements Initializable {
                 .max()
                 .orElse(0);
     }
+
     //gibt die Anzahl der Filme eines bestimmten Regisseurs zurück.
     public long countMoviesFrom(List<Movie> movies, String director){
         return movies.stream()
