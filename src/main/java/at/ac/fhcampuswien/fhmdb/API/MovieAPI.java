@@ -52,7 +52,7 @@ public class MovieAPI {
             if(query != "") {subUrl += "query=" + query + "&";}
             if(genre != null) {subUrl += "genre=" + genre + "&";}
             if(releaseYear != 0) {subUrl += "releaseYear=" + releaseYear + "&";}
-            if(ratingFrom != 0) {subUrl += "rating=" + ratingFrom + "&";}
+            if(ratingFrom != 0) {subUrl += "ratingFrom=" + ratingFrom + "&";}
             subUrl = subUrl.substring(0, subUrl.length()-1);
         }
 
