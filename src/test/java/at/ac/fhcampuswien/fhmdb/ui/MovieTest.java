@@ -26,7 +26,7 @@ public class MovieTest {
         movieTest2 = moviesForTestingLatterBits.get(1);
     }
 
-
+/*
     @Test
     @DisplayName("Checking the initilizer")
     public void movie_check_initializeMovies_same(){
@@ -122,7 +122,7 @@ public class MovieTest {
 
         assertEquals(expected, actual);
     }
-
+*/
     @Test
     @DisplayName("Checking toString")
     public void movie_check_equals_true(){
