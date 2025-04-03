@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -115,6 +116,33 @@ public class HomeControllerTest {
         long actual = homeController.countMoviesFrom(testMovies, "Charlie Lightning");
 
         assertEquals(actual, expected);
+    }
+
+    @Test
+    @DisplayName("Check Movie between years: both")
+    public void check_getMovieBetweenYears(){
+        List<Movie> expected = testMovies;
+        List<Movie> actual = homeController.getMoviesBetweenYears(testMovies, 2012, 2025);
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    @DisplayName("Check Movie between years: single")
+    public void check_getMovieBetweenYears_1(){
+        List<Movie> expected = new ArrayList<>(Arrays.asList(testMovies.get(0)));
+        List<Movie> actual = homeController.getMoviesBetweenYears(testMovies, 2012, 2017);
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    @DisplayName("Check Movie between years: single later")
+    public void check_getMovieBetweenYears_2(){
+        List<Movie> expected = new ArrayList<>(Arrays.asList(testMovies.get(1)));
+        List<Movie> actual = homeController.getMoviesBetweenYears(testMovies, 2017, 2025);
+        assertEquals(expected, actual);
+
     }
 
 }
