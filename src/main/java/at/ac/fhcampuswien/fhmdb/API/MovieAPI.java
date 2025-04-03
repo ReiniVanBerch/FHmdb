@@ -47,19 +47,19 @@ public class MovieAPI {
     public ArrayList<Movie> getMovies(String query, String genre, int releaseYear, double ratingFrom) throws IOException {
         String subUrl = FHurl + "movies";
 
-        if(query != "" || genre != null || releaseYear != 0 || ratingFrom != 0) {
-            subUrl += "?";
-            if(query != "") {subUrl += "query=" + query + "&";}
-            if(genre != null) {subUrl += "genre=" + genre + "&";}
-            if(releaseYear != 0) {subUrl += "releaseYear=" + releaseYear + "&";}
-            if(ratingFrom != 0) {subUrl += "ratingFrom=" + ratingFrom + "&";}
-            subUrl = subUrl.substring(0, subUrl.length()-1);
-        }
-
-        System.out.println(subUrl);
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(subUrl).newBuilder();
 
 
-        String moviesAsString = run(subUrl);
+        if(query != "" && query != null) {urlBuilder.addQueryParameter("query", query);}
+        if(genre != "" && genre != null) {urlBuilder.addQueryParameter("genre", genre);}
+        if(releaseYear != 0) {urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));}
+        if(ratingFrom != 0) {urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));}
+
+
+        System.out.println(urlBuilder.build());
+
+
+        String moviesAsString = run(urlBuilder.build().toString());
 
         //Tokenizes the typeToken so we have a specific listType for the api
 
