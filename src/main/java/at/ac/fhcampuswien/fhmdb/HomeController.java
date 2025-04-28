@@ -49,6 +49,8 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton watchListBtn;
 
+    public boolean watchlist =false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeLogic();
@@ -205,16 +207,25 @@ public class HomeController implements Initializable {
     }
 
     public void watchListBtnClicked(){
-        /*observableMovies.clear();
-        MovieAPI api = new MovieAPI();
-        try {
-            watchlistMovies.addAll(api.getMovies("Dark Knight","",0,0));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        if (!watchlist) {
+            observableMovies.clear();
+            MovieAPI api = new MovieAPI();
+            try {
+                observableMovies.addAll(api.getMovies("Dark Knight", "ACTION", 2008, 0));
+                watchlist = true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            watchlist = false;
+            searchBtnClicked();
         }
 
-        observableMovies.addAll(watchlistMovies);
-        */
+
+
+
 
     }
 
