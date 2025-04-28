@@ -13,7 +13,9 @@ public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
     private final Label detail = new Label();
     private final Label genres = new Label();
-    private final VBox layout = new VBox(title, detail, genres);
+    private final Label releaseyear = new Label();
+    private final Label rating = new Label();
+    private final VBox layout = new VBox(title, detail, genres,releaseyear,rating);
 
     @Override
     protected void updateItem(Movie movie, boolean empty) {
@@ -41,12 +43,25 @@ public class MovieCell extends ListCell<Movie> {
                     :       "No genres available"
             );
 
+            releaseyear.setText(
+                    movie.getReleaseYear() != 0
+                            ?       "Releaseyear: " + movie.getReleaseYear()
+                            :       "No Releaseyear available"
+            );
+            rating.setText(
+                    movie.getRating() != 0
+                            ?       "Rating: " + movie.getRating()
+                            :       "No Rating available"
+            );
+
 
 
             // color scheme
             title.getStyleClass().add("text-yellow");
             detail.getStyleClass().add("text-white");
             genres.getStyleClass().add("text-white");
+            releaseyear.getStyleClass().add("text-white");
+            rating.getStyleClass().add("text-white");
             layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
             // layout
@@ -58,6 +73,10 @@ public class MovieCell extends ListCell<Movie> {
             genres.setMaxWidth(this.getScene().getWidth() - 30);
             genres.setWrapText(true);
 
+            releaseyear.setMaxWidth(this.getScene().getWidth() - 30);
+            releaseyear.setWrapText(true);
+            rating.setMaxWidth(this.getScene().getWidth() - 30);
+            rating.setWrapText(true);
 
             layout.setPadding(new Insets(10));
             layout.spacingProperty().set(10);
