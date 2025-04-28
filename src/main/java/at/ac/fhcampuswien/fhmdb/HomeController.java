@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
@@ -42,8 +43,11 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
 
     public List<Movie> allMovies = Movie.initializeMovies();
+    public List<Movie> watchlistMovies;
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
+    @FXML
+    public JFXButton watchListBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,6 +104,7 @@ public class HomeController implements Initializable {
 
         sortBtn.setOnAction(actionEvent -> sort());
         searchBtn.setOnAction(actionEvent -> searchBtnClicked());
+        watchListBtn.setOnAction(actionEvent -> watchListBtnClicked());
 
     }
 
@@ -198,6 +203,21 @@ public class HomeController implements Initializable {
                 .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
                 .collect(Collectors.toList());
     }
+
+    public void watchListBtnClicked(){
+        /*observableMovies.clear();
+        MovieAPI api = new MovieAPI();
+        try {
+            watchlistMovies.addAll(api.getMovies("Dark Knight","",0,0));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        observableMovies.addAll(watchlistMovies);
+        */
+
+    }
+
 
     /*
     public List<Movie> filterGenre(Object genre, List<Movie> moviesList) {
