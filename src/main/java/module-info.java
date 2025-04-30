@@ -8,6 +8,8 @@ module at.ac.fhcampuswien.fhmdb {
     requires junit;
     requires hamcrest.core;
     requires com.google.gson;
+    requires ormlite.jdbc;
+    requires java.sql;
 
 
     opens at.ac.fhcampuswien.fhmdb to javafx.fxml;
