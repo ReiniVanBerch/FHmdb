@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb;
+package at.ac.fhcampuswien.fhmdb.Controller;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
@@ -14,13 +14,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class HomeController implements Initializable {
+public abstract class ControllerBase implements Initializable {
+
     @FXML
     public JFXButton searchBtn;
 
@@ -43,13 +46,8 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
 
     public List<Movie> allMovies = Movie.initializeMovies();
-    public List<Movie> watchlistMovies;
 
-    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
-    @FXML
-    public JFXButton watchListBtn;
-
-    public boolean watchlist =false;
+    protected final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,57 +56,13 @@ public class HomeController implements Initializable {
     }
 
     public void initializeLogic() {
+        System.out.println("Init Logic");
         observableMovies.clear();
-        observableMovies.addAll(allMovies);         // add dummy data to observable list
-
-        //initial sort state
+        observableMovies.addAll(allMovies);
         sortAscending(observableMovies);
-
-
-        // either set event handlers in the fxml file (onAction) or add them here
-
-        // Sort button example:
-
     }
 
-    public void initializeUI() {
-        // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
-
-        // add Genres to selection (and option to not filter)
-        Genre[] genres = Genre.values();
-        genreComboBox.getItems().add("all genres");
-        genreComboBox.getItems().addAll(genres);
-        genreComboBox.setPromptText("Filter by Genre");
-
-        //add releaseyears
-        releaseYearComboBox.getItems().add("all release years");
-       // releaseyearComboBox.getItems().addAll(allMovies.sort(Comparator.comparing(Movie::getReleaseYear)).release
-         //       );
-        Integer[] years = new Integer[125];
-        for (int i = 0; i < years.length; i++) {
-            years[i] = 1900 + i;
-        }
-        releaseYearComboBox.getItems().addAll(years);
-        releaseYearComboBox.setPromptText("Filter by release year");
-        //ratings button
-        ratingComboBox.getItems().add("all ratings");
-        Integer[] ratings = new Integer[11];
-        for (int i = 0; i < ratings.length; i++) {
-            ratings[i] = i;
-        }
-        ratingComboBox.getItems().addAll(ratings);
-
-        ratingComboBox.setPromptText("Filter by ratings");
-        //set initial sort button text
-        sortBtn.setText("Sort (desc)");
-
-        sortBtn.setOnAction(actionEvent -> sort());
-        searchBtn.setOnAction(actionEvent -> searchBtnClicked());
-        watchListBtn.setOnAction(actionEvent -> watchListBtnClicked());
-
-    }
+    public abstract void initializeUI();
 
     public void searchBtnClicked(){
         try {
@@ -134,7 +88,7 @@ public class HomeController implements Initializable {
             catch (Exception e) {releaseYear = 0;}
 
             try{int ratingInt = ((int) ratingComboBox.getSelectionModel().getSelectedItem());
-            rating = ratingInt;}
+                rating = ratingInt;}
             catch (Exception e) {
                 System.out.println(e);
                 rating = 0;}
@@ -206,30 +160,6 @@ public class HomeController implements Initializable {
                 .collect(Collectors.toList());
     }
 
-    public void watchListBtnClicked(){
-
-        if (!watchlist) {
-            observableMovies.clear();
-            MovieAPI api = new MovieAPI();
-            try {
-                observableMovies.addAll(api.getMovies("Dark Knight", "ACTION", 2008, 0));
-                watchlist = true;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else {
-            watchlist = false;
-            searchBtnClicked();
-        }
-
-
-
-
-
-    }
-
-
     /*
     public List<Movie> filterGenre(Object genre, List<Movie> moviesList) {
         System.out.println(genre);
@@ -283,9 +213,10 @@ public class HomeController implements Initializable {
         return observableMovies;
     }
     */
-
-
-
+//
+//    private final ClickEventHandler onAddToWatchlistClicked = (clickedItem) -> {
+//
+//    };
 
 
 }
