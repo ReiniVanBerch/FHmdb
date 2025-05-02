@@ -20,7 +20,7 @@ public class FhmdbApplication extends Application {
         Parent root = base.load();
 
         TabPane tabPane = (TabPane) root.lookup("#tabPane");
-
+        /*
         FXMLLoader homeLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
         homeLoader.setController(new ControllerBaseHome());
         Tab home = new Tab("Home", homeLoader.load());
@@ -32,7 +32,7 @@ public class FhmdbApplication extends Application {
 
         tabPane.getTabs().add(home);
         tabPane.getTabs().add(watchlist);
-
+        */
         Scene scene = new Scene(root, 890, 620);
         scene.getStylesheets().add(Objects.requireNonNull(FhmdbApplication.class.getResource("styles.css")).toExternalForm());
         stage.setTitle("FHMDb");

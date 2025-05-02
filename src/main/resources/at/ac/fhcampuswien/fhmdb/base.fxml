@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerScene">
-   <children>
-      <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" />
-   </children>
-</AnchorPane>
+      <TabPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane"  tabClosingPolicy="UNAVAILABLE" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerScene">
+      <tabs>
+         <Tab text="Home">
+            <content>
+               <fx:include fx:id="Home" source="home-view.fxml" />
+            </content>
+         </Tab>
+         <Tab text="Watchlist">
+            <content>
+               <fx:include fx:id="Watchlist" source="home-view-watchlist.fxml" />
+            </content>
+         </Tab>
+      </tabs>
+   </TabPane>
+
+
