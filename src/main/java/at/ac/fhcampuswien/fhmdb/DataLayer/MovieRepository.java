@@ -26,9 +26,12 @@ public class MovieRepository {
         return all.isEmpty() ? null : all.get(0);      // Liste leer --> null , sonnst den ersten Film
     }
 
-    public void addAllMovies(List<MovieEntity> movies) throws SQLException {
+    public int addAllMovies(List<MovieEntity> movies) throws SQLException {
+        int count = 0;
         for (MovieEntity movie : movies) {
             dao.createOrUpdate(movie);
+            count++;
         }
+        return count;
     }
 }
