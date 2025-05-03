@@ -10,20 +10,23 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
 
-    private String DB_URL;
-    private String username;
-    private String password;
+    private static String DB_URL = "jdbc:h2:./DataLayer/moviedb";
+    private static String username = "admin";
+    private static String password = "";
     private static ConnectionSource conn;
-    private Dao<MovieEntity, Long> movieDao;
-    private Dao<WatchlistMovieEntity, Long> watchlistDao;
+    private static Dao<MovieEntity, Long> movieDao;
+    private static Dao<WatchlistMovieEntity, Long> watchlistDao;
 
-    public DatabaseManager(String DB_URL, String username, String password) {
-        this.DB_URL = DB_URL;
-        this.username = username;
-        this.password = password;
+    public DatabaseManager() throws SQLException {
+        init();
     }
 
-    public void createConnectionSource() throws SQLException {
+    public static void init() throws SQLException {
+        createConnectionSource();
+        createTables();
+    }
+
+    public static void createConnectionSource() throws SQLException {
         conn = new JdbcConnectionSource(DB_URL, username, password);
         movieDao = DaoManager.createDao(conn, MovieEntity.class);
         watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
@@ -34,17 +37,17 @@ public class DatabaseManager {
     }
 
 
-    public void createTables() throws SQLException {
+    public static void createTables() throws SQLException {
         TableUtils.createTableIfNotExists(conn, MovieEntity.class);
         TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
     }
 
-    public Dao<WatchlistMovieEntity, Long> getWatchlistDao() {
+    public static Dao<WatchlistMovieEntity, Long> getWatchlistDao() {
 
         return watchlistDao;
     }
 
-    public Dao<MovieEntity, Long> getMovieDao() {
+    public static Dao<MovieEntity, Long> getMovieDao() {
 
         return movieDao;
     }

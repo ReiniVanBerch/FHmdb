@@ -2,10 +2,12 @@ package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@DatabaseTable(tableName = "watchlist")
 public class WatchlistRepository {
     private final Dao<WatchlistMovieEntity, Long> dao;
 

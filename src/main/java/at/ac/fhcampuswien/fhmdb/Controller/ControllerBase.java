@@ -1,6 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -15,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +48,24 @@ public abstract class ControllerBase implements Initializable {
     @FXML
     public JFXButton sortBtn;
 
+
+    protected DatabaseManager dbm;
+    MovieRepository movieRepo;
+
     public List<Movie> allMovies = Movie.initializeMovies();
 
     protected final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
+
+    public ControllerBase() {
+        try {
+            dbm = new DatabaseManager();
+        } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText("Could not connect to database");
+            a.showAndWait();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
