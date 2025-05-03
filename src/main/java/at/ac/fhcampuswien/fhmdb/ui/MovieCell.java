@@ -21,10 +21,10 @@ public class MovieCell extends ListCell<Movie> {
     private final VBox layout = new VBox(title, detail, genres,releaseyear,rating, watchlist);
 
     public MovieCell() {}
-    public MovieCell(ClickEventHandler addToWatchlistCLicked) {
+    public MovieCell(ClickEventHandler addToWatchlistClicked) {
         super();
         watchlist.setOnMouseClicked(mouseEvent -> {
-            addToWatchlistCLicked.onClick(getItem());
+            addToWatchlistClicked.onClick(getItem());
         });
     }
 

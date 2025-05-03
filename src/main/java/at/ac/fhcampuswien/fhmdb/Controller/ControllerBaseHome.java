@@ -1,13 +1,23 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
+import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 
 public class ControllerBaseHome extends ControllerBase {
+
+    private final ClickEventHandler onAddToWatchlistClicked = (clickedItem) ->
+    {
+// add code to add movie to watchlist here
+    };
+
     public void initializeUI() {
+
+
+
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked)); // use custom cell factory to display data
 
         // add Genres to selection (and option to not filter)
         Genre[] genres = Genre.values();

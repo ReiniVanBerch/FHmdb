@@ -213,10 +213,6 @@ public abstract class ControllerBase implements Initializable {
         return observableMovies;
     }
     */
-//
-//    private final ClickEventHandler onAddToWatchlistClicked = (clickedItem) -> {
-//
-//    };
 
 
 }
