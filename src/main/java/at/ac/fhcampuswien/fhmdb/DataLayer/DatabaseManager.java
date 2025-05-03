@@ -13,7 +13,7 @@ public class DatabaseManager {
     private String DB_URL;
     private String username;
     private String password;
-    private ConnectionSource conn;
+    private static ConnectionSource conn;
     private Dao<MovieEntity, Long> movieDao;
     private Dao<WatchlistMovieEntity, Long> watchlistDao;
 
@@ -29,9 +29,10 @@ public class DatabaseManager {
         watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
     }
 
-    public ConnectionSource getConn() {
+    public static ConnectionSource getConn() {
         return conn;
     }
+
 
     public void createTables() throws SQLException {
         TableUtils.createTableIfNotExists(conn, MovieEntity.class);
