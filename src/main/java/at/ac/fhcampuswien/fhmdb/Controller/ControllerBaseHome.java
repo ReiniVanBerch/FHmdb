@@ -1,15 +1,37 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
+import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
+
+import java.sql.SQLException;
 
 public class ControllerBaseHome extends ControllerBase {
 
     private final ClickEventHandler onAddToWatchlistClicked = (clickedItem) ->
     {
-// add code to add movie to watchlist here
+        if(clickedItem instanceof MovieEntity movie){
+            WatchlistMovieEntity watchlistMovieEntity = new WatchlistMovieEntity(movie.getApiId());
+
+            WatchlistRepository repository = null;
+            try {
+                repository = new WatchlistRepository();
+                repository.addToWatchlist(watchlistMovieEntity);
+            } catch (DatabaseException e) {
+                AlertHelper.buildAlert("Database Error", e.getMessage());
+            }
+
+
+        }
     };
+
+
 
     public void initializeUI() {
 

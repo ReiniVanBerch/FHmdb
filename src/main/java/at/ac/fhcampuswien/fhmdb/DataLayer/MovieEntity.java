@@ -5,10 +5,7 @@ import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @DatabaseTable(tableName = "movies")
 public class MovieEntity {
@@ -93,6 +90,8 @@ public class MovieEntity {
         return rating;
     }
 
+
+
     public List<Genre> getGenresAsList() {
         return Arrays.stream(genres.split(",")).map(Genre::valueOf).toList();
     }
@@ -103,7 +102,8 @@ public class MovieEntity {
             genreList.append(g.name()).append(",");
 
         }
-        return null;
+        genreList.setLength(genreList.length() - 1);
+        return genreList.toString();
     }
 
     public List<MovieEntity> fromMovies (List<Movie> movies) {
@@ -126,4 +126,6 @@ public class MovieEntity {
         }
         return movies;
     }
+
+
 }

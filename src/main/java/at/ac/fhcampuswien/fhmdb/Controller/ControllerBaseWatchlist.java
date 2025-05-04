@@ -1,27 +1,37 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCellWatchlist;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class ControllerBaseWatchlist extends ControllerBase{
     private final ClickEventHandler onRemoveFromWatchlistClicked = (clickedItem) -> {
-        // add code to remove movie from watchlist here
+        try{
+            if(clickedItem instanceof MovieEntity movie){
 
-        Movie movie = (Movie) clickedItem;
-        UUID uuid = movie.getId();
-        String apiId = uuid.toString();
+                WatchlistRepository watchlistRepository = new WatchlistRepository();
+                watchlistRepository.removeFromWatchlist(movie.getApiId());
+                observableMovies.remove(movie.getApiId());
 
-        WatchlistMovieEntity movieEntity = new WatchlistMovieEntity(apiId);
+            }
 
-
+        }
+        catch (DatabaseException e) {
+            AlertHelper.buildAlert("Database Error", e.getMessage());
+        }
 
 
 

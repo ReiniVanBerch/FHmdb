@@ -1,8 +1,11 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -52,18 +55,20 @@ public abstract class ControllerBase implements Initializable {
     protected DatabaseManager dbm;
     MovieRepository movieRepo;
 
-    public List<Movie> allMovies = Movie.initializeMovies();
+    public List<MovieEntity> allMovies;
 
-    protected final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
+    protected final ObservableList<MovieEntity> observableMovies = FXCollections.observableArrayList();
 
     public ControllerBase() {
         try {
             dbm = new DatabaseManager();
+            allMovies = dbm.getMovieDao().queryForAll();
+        } catch (DatabaseException e) {
+            AlertHelper.buildAlert("Database Error", e.getMessage());
+
         } catch (SQLException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setContentText("Could not connect to database");
-            a.showAndWait();
+            AlertHelper.buildAlert("SQL Error", e.getMessage());
+
         }
     }
 
@@ -112,7 +117,8 @@ public abstract class ControllerBase implements Initializable {
                 rating = 0;}
 
             observableMovies.clear();
-            observableMovies.addAll(api.getMovies(title, genre, releaseYear, rating));
+            observableMovies.addAll(dbm.getMovieDao().queryForAll());
+                    api.getMovies(title, genre, releaseYear, rating);
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Error");
@@ -131,16 +137,18 @@ public abstract class ControllerBase implements Initializable {
         }
     }
 
-    public void sortAscending(ObservableList<Movie> list) {
-        list.sort(Comparator.comparing(Movie::getTitle));
+    public void sortAscending(ObservableList<MovieEntity> list) {
+        list.sort(Comparator.comparing(MovieEntity::getTitle));
     }
 
-    public void sortDescending(ObservableList<Movie> list) {
-        list.sort(Comparator.comparing(Movie::getTitle).reversed());
+    public void sortDescending(ObservableList<MovieEntity> list) {
+        list.sort(Comparator.comparing(MovieEntity::getTitle).reversed());
     }
 
+
+    /*
     //still to do return most popular actor of sent movie
-    public String getMostPopularActor(List<Movie> movies){
+    public String getMostPopularActor(List<MovieEntity> movies){
         String actor = movies.stream()
                 .filter(movie -> movie.getMainCast() != null)
                 .flatMap(movie -> movie.getMainCast().stream())
@@ -154,7 +162,7 @@ public abstract class ControllerBase implements Initializable {
     }
 
     //filtert auf den längsten Titel der übergebenen Filme und gibt die Anzahl der Buchstaben des Titels zurück
-    public int getLongestMovieTitle(List<Movie> movies){
+    public int getLongestMovieTitle(List<MovieEntity> movies){
         return movies.stream()
                 .mapToInt(movie -> movie.getTitle().length())
                 .max()
@@ -162,7 +170,7 @@ public abstract class ControllerBase implements Initializable {
     }
 
     //gibt die Anzahl der Filme eines bestimmten Regisseurs zurück.
-    public long countMoviesFrom(List<Movie> movies, String director){
+    public long countMoviesFrom(List<MovieEntity> movies, String director){
         return movies.stream()
                 .filter(movie -> movie.getDirectors() != null)
                 .filter(movie -> movie.getDirectors().contains(director))
@@ -171,14 +179,14 @@ public abstract class ControllerBase implements Initializable {
     }
 
     //gibt jene Filme zurück, die zwischen zwei gegebenen Jahren veröffentlicht wurden.
-    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear){
+    public List<MovieEntity> getMoviesBetweenYears(List<MovieEntity> movies, int startYear, int endYear){
 
         return movies.stream()
                 .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
                 .collect(Collectors.toList());
     }
 
-    /*
+
     public List<Movie> filterGenre(Object genre, List<Movie> moviesList) {
         System.out.println(genre);
         if (genre == null || genre.toString().equals("all genres")) {

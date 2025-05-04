@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.API;
 
+import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,7 +34,7 @@ public class MovieAPI {
         }
     }
 
-    public ArrayList<Movie> getMovies() throws IOException {
+    public ArrayList<MovieEntity> getMovies() throws IOException {
         String subUrl = FHurl + "movies";
         System.out.println(subUrl);
 
@@ -40,11 +42,11 @@ public class MovieAPI {
 
         //Tokenizes the typeToken so we have a specific listType for the api
 
-        Type listType = new TypeToken<ArrayList<Movie>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
         return gson.fromJson(moviesAsString, listType);
     }
 
-    public ArrayList<Movie> getMovies(String query, String genre, int releaseYear, double ratingFrom) throws IOException {
+    public ArrayList<MovieEntity> getMovies(String query, String genre, int releaseYear, double ratingFrom) throws IOException {
         String subUrl = FHurl + "movies";
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(subUrl).newBuilder();
@@ -63,7 +65,7 @@ public class MovieAPI {
 
         //Tokenizes the typeToken so we have a specific listType for the api
 
-        Type listType = new TypeToken<ArrayList<Movie>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
         return gson.fromJson(moviesAsString, listType);
     }
 

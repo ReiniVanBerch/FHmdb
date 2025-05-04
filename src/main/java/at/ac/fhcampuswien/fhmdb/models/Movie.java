@@ -130,20 +130,7 @@ public class Movie {
     }
 
     public static List<Movie> initializeMovies(){
-        MovieAPI api = new MovieAPI();
-
-        //UUID uuid = UUID.fromString("81d317b0-29e5-4846-97a6-43c07f3edf4a");
-        //String response = example.getMovie(uuid);
-        //String response = example.getMovies().get(0).toString();
-        try{
-            return api.getMovies();
-        } catch (IOException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setContentText(e.getMessage());
-            a.showAndWait();
-            return null;
-        }
+        return initializeMoviesLocal();
 
     }
 

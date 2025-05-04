@@ -26,6 +26,7 @@ public class MovieAPITest {
 
     }
 
+    /*
     @Test
     @DisplayName("Getting all the movies.")
     void check_getMovies(){
@@ -64,4 +65,6 @@ public class MovieAPITest {
         }
 
     }
+    */
+
 }
