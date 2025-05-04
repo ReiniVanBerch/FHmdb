@@ -59,12 +59,18 @@ public class ControllerBaseHome extends ControllerBase {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        super.initializeLogic();
-        initializeUI(this.clickEventHandler, observableMovies);
+
+        observableMovies.clear();
+        observableMovies.addAll(allMovies);
+        sortAscending(observableMovies);
+
+
+
+        initializeUI(this.clickEventHandler);
     }
 
-    public void initializeUI(ClickEventHandler clickEventHandler, ObservableList<MovieEntity> observableMovies){
-        super.initializeUI(clickEventHandler, observableMovies);
+    public void initializeUI(ClickEventHandler clickEventHandler){
+        super.initializeUI(clickEventHandler);
 
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view

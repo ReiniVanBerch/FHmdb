@@ -31,6 +31,15 @@ public class MovieRepository {
         return all.isEmpty() ? null : all.get(0);      // Liste leer --> null , sonnst den ersten Film
     }
 
+    public MovieEntity getMovie(String apiId) throws DatabaseException {
+        try{
+
+            return dao.queryBuilder().where().eq("apiId", apiId).queryForFirst();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public int addAllMovies(List<MovieEntity> movies) throws SQLException {
         int count = 0;
         for (MovieEntity movie : movies) {

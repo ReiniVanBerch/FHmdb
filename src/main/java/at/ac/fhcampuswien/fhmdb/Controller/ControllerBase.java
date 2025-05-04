@@ -53,11 +53,6 @@ public abstract class ControllerBase implements Initializable {
             dbm = new DatabaseManager();
             allMovies = dbm.getMovieDao().queryForAll();
 
-
-
-
-
-
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
 
@@ -69,20 +64,12 @@ public abstract class ControllerBase implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeLogic();
-        initializeUI(this.clickEventHandler, observableMovies);
+        initializeUI(this.clickEventHandler);
     }
 
-    public void initializeLogic() {
-        System.out.println("Init Logic");
-        observableMovies.clear();
-        observableMovies.addAll(allMovies);
-        sortAscending(observableMovies);
 
 
-    }
-
-    public void initializeUI(ClickEventHandler clickEventHandler, ObservableList<MovieEntity> observableMovies) {
+    public void initializeUI(ClickEventHandler clickEventHandler) {
 
 
 

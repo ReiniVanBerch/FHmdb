@@ -27,8 +27,6 @@ public class WatchlistRepository {
         try {
             long count = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
             if (count == 0) {
-                System.out.println(movie.getApiId());
-                System.out.println(movie.getId());
                 return dao.create(movie);
             } else{
                 return 0;
