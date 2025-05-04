@@ -14,10 +14,10 @@ public class MovieEntity {
     private long id;
 
     @DatabaseField(canBeNull = false)
-    private String apiId;
+    protected String apiId;
 
     @DatabaseField(canBeNull = false)
-    private String title;
+    protected String title;
 
     @DatabaseField()
     private String description;

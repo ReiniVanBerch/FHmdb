@@ -33,20 +33,25 @@ public class ControllerBaseWatchlist extends ControllerBase{
         }
     };
 
-    private void addToWatchlist(WatchlistMovieEntity movie) {
-    }
 
-    public void initializeUI(){
+    public void update(){
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCellWatchlist(onRemoveFromWatchlistClicked)); // use custom cell factory to display data
         observableMovies.clear();
-        MovieAPI api = new MovieAPI();
+
         try {
-            observableMovies.addAll(api.getMovies("Dark Knight", "ACTION", 2008, 0));
-        } catch (IOException e) {
+            this.observableMovies.addAll(dbm.getWatchlistDao().queryForAll());
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private void addToWatchlist(WatchlistMovieEntity movie) {
+    }
+
+    public void initializeUI() {
+
+        super.initializeUI(onRemoveFromWatchlistClicked);
 
     }
 
