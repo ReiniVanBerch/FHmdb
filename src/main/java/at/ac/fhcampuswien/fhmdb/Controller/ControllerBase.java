@@ -18,6 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -35,6 +37,8 @@ public abstract class ControllerBase implements Initializable {
     @FXML
     public TextField searchField;
 
+    @FXML
+    public TabPane tabPane;
 
 
     @FXML
@@ -46,7 +50,6 @@ public abstract class ControllerBase implements Initializable {
     public List<MovieEntity> allMovies;
 
     protected final ObservableList<MovieEntity> observableMovies = FXCollections.observableArrayList();
-    protected final ObservableList<MovieEntity> observableWatchlistMovies = FXCollections.observableArrayList();
 
     public ControllerBase() {
         try {
@@ -65,6 +68,7 @@ public abstract class ControllerBase implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeUI(this.clickEventHandler);
+
     }
 
 
@@ -75,51 +79,11 @@ public abstract class ControllerBase implements Initializable {
 
 
         //set initial sort button text
-        sortBtn.setText("Sort (desc)");
 
-        sortBtn.setOnAction(actionEvent -> sort());
-        searchBtn.setOnAction(actionEvent -> searchBtnClicked());
         //watchListBtn.setOnAction(actionEvent -> watchListBtnClicked());
     }
 
-    public void searchBtnClicked(){
-        try {
 
-
-            MovieAPI api = new MovieAPI();
-
-            String title, genre;
-            int releaseYear;
-            double rating;
-
-            title = searchField.getText();
-
-//            Object g = genreComboBox.getSelectionModel().getSelectedItem();
-//            if(g != null){
-//                genre = g.toString();
-//                if(genre.toLowerCase() == "all genres"){genre = null;}
-//            }
-//            else {genre = null;}
-//
-//
-//            try{releaseYear = (int) releaseYearComboBox.getSelectionModel().getSelectedItem();}
-//            catch (Exception e) {releaseYear = 0;}
-//
-//            try{rating = ((int) ratingComboBox.getSelectionModel().getSelectedItem());}
-//            catch (Exception e) {
-//                System.out.println(e);
-//                rating = 0;}
-
-            //observableMovies.clear();
-            //observableMovies.addAll(dbm.getMovieDao().queryForAll());
-            //api.getMovies(title, genre, releaseYear, rating);
-        } catch (Exception e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setContentText(e.getMessage());
-            a.showAndWait();
-        }
-    }
 
     public void sort() {
         if(sortBtn.getText().equals("Sort (asc)")) {

@@ -28,12 +28,6 @@
       </children>
    </HBox>
    <HBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
-      <children>
-         <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Sort (asc)" />
-         <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search Watchlist" />
-         <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" />
-
-      </children>
       <VBox.margin>
          <Insets />
       </VBox.margin>

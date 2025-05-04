@@ -89,8 +89,6 @@ public class ControllerBaseWatchlist extends ControllerBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
 

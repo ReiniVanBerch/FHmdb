@@ -1,7 +1,9 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
+import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
@@ -13,8 +15,12 @@ import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TabPane;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -34,8 +40,13 @@ public class ControllerBaseHome extends ControllerBase {
     @FXML
     public JFXComboBox ratingComboBox;
 
+    public ControllerBaseWatchlist tab2;
+
     public ControllerBaseHome(){
         super();
+
+
+
 
         clickEventHandler = (clickedItem) ->
         {
@@ -46,7 +57,6 @@ public class ControllerBaseHome extends ControllerBase {
                 try {
                     WatchlistRepository repository = new WatchlistRepository();
                     repository.addToWatchlist(watchlistMovieEntity);
-
 
                 } catch (DatabaseException e) {
                     AlertHelper.buildAlert("Database Error", e.getMessage());
@@ -71,6 +81,11 @@ public class ControllerBaseHome extends ControllerBase {
 
     public void initializeUI(ClickEventHandler clickEventHandler){
         super.initializeUI(clickEventHandler);
+
+        sortBtn.setText("Sort (desc)");
+
+        sortBtn.setOnAction(actionEvent -> sort());
+        searchBtn.setOnAction(actionEvent -> searchBtnClicked());
 
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
@@ -108,7 +123,48 @@ public class ControllerBaseHome extends ControllerBase {
 
         }
     }
+    public void searchBtnClicked(){
+        try {
 
+
+            MovieAPI api = new MovieAPI();
+
+            String title, genre;
+            int releaseYear;
+            double rating;
+
+            title = searchField.getText();
+
+            Object g = genreComboBox.getSelectionModel().getSelectedItem();
+            if(g != null){
+                genre = g.toString();
+                if(genre.toLowerCase() == "all genres"){genre = null;}
+            }
+            else {genre = null;}
+
+
+            try{releaseYear = (int) releaseYearComboBox.getSelectionModel().getSelectedItem();}
+            catch (Exception e) {releaseYear = 0;}
+
+            try{rating = ((int) ratingComboBox.getSelectionModel().getSelectedItem());}
+            catch (Exception e) {
+                System.out.println(e);
+                rating = 0;}
+
+            List<MovieEntity> movies = api.getMovies(title, genre, releaseYear, rating);
+            observableMovies.clear();
+            observableMovies.addAll(movies);
+
+            dbm.getMovieDao().clearObjectCache();
+            dbm.getMovieDao().create(movies);
+
+        } catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.showAndWait();
+        }
+    }
 
 
 }

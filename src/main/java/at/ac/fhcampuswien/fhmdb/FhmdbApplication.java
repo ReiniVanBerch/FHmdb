@@ -1,6 +1,10 @@
 package at.ac.fhcampuswien.fhmdb;
 
 
+import at.ac.fhcampuswien.fhmdb.Controller.ControllerBase;
+import at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseHome;
+import at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseWatchlist;
+import at.ac.fhcampuswien.fhmdb.Controller.ControllerScene;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import javafx.application.Application;
@@ -29,6 +33,9 @@ public class FhmdbApplication extends Application {
             stage.setTitle("FHMDb");
             stage.setScene(scene);
             stage.show();
+
+
+
 
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
