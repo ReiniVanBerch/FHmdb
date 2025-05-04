@@ -1,30 +1,40 @@
 package at.ac.fhcampuswien.fhmdb.Controller;
 
-import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
-import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
-import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCellWatchlist;
+import com.jfoenix.controls.JFXListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 
-import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
+
 
 public class ControllerBaseWatchlist extends ControllerBase{
+
+    @FXML
+    public JFXListView movieWatchlistListView;
+
+    List<MovieEntity> watchlistMovies;
+
     private final ClickEventHandler onRemoveFromWatchlistClicked = (clickedItem) -> {
         try{
             if(clickedItem instanceof MovieEntity movie){
 
                 WatchlistRepository watchlistRepository = new WatchlistRepository();
                 watchlistRepository.removeFromWatchlist(movie.getApiId());
-                observableMovies.remove(movie.getApiId());
+                watchlistMovies.remove(movie.getApiId());
 
             }
         }
@@ -33,25 +43,43 @@ public class ControllerBaseWatchlist extends ControllerBase{
         }
     };
 
-
-    public void update(){
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCellWatchlist(onRemoveFromWatchlistClicked)); // use custom cell factory to display data
-        observableMovies.clear();
-
+    public ControllerBaseWatchlist() {
+        super();
+        List<WatchlistMovieEntity> watchlistMoviesAsWatchlist = null;
         try {
-            this.observableMovies.addAll(dbm.getWatchlistDao().queryForAll());
+            watchlistMoviesAsWatchlist = dbm.getWatchlistDao().queryForAll();
+            List<String> apiIds = watchlistMoviesAsWatchlist.stream()
+                    .map(WatchlistMovieEntity::getApiId)
+                    .collect(Collectors.toList());
+            watchlistMovies = dbm.getMovieDao().queryBuilder()
+                    .where()
+                    .in("apiId", apiIds)
+                    .query();
+            System.out.println(watchlistMovies.size());
+
+
+            observableMovies.clear();
+            observableMovies.setAll(watchlistMovies);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
-    private void addToWatchlist(WatchlistMovieEntity movie) {
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        super.initializeLogic();
+        initializeUI(onRemoveFromWatchlistClicked, observableMovies);
     }
 
-    public void initializeUI() {
 
-        super.initializeUI(onRemoveFromWatchlistClicked);
+    public void initializeUI(ClickEventHandler clickEventHandler, ObservableList<MovieEntity> observableMovies){
+        super.initializeUI(clickEventHandler, observableMovies);
+
+        movieWatchlistListView.setItems(observableMovies);   // set data of observable list to list view
+
+        movieWatchlistListView.setCellFactory(movieListView -> new MovieCellWatchlist(clickEventHandler)); // use custom cell factory to display data
 
     }
 

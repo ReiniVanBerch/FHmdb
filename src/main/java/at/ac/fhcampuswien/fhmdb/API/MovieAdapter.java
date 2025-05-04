@@ -24,17 +24,9 @@ class MovieAdapter implements JsonDeserializer<MovieEntity> {
                 .map(Genre::toString)
                 .collect(Collectors.joining(", "));
 
-
-//        List<String> mainCast = context.deserialize(jo.get("mainCast"), List.class);
-//        List<String> writers = context.deserialize(jo.get("writers"), List.class);
-//        List<String> directors = context.deserialize(jo.get("directors"), List.class);
-
         int releaseYear = jo.get("releaseYear").getAsInt();
         int lengthInMinutes = jo.get("lengthInMinutes").getAsInt();
         double rating = jo.get("rating").getAsDouble();
-
-
-
 
         return new MovieEntity(
                 apiId,

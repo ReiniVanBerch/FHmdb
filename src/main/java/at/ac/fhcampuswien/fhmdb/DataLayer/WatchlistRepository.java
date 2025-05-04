@@ -25,11 +25,15 @@ public class WatchlistRepository {
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
-            List<WatchlistMovieEntity> existing = dao.queryForEq("apiId", movie.getApiId());
-            if (existing.isEmpty()) {
+            long count = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
+            if (count == 0) {
+                System.out.println(movie.getApiId());
+                System.out.println(movie.getId());
                 return dao.create(movie);
+            } else{
+                return 0;
             }
-            return 0;
+
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }

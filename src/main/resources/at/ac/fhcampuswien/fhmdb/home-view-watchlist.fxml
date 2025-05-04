@@ -41,5 +41,5 @@
          <Insets bottom="20.0" left="10.0" top="20.0" />
       </padding>
    </HBox>
-   <JFXListView fx:id="movieListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
+   <JFXListView fx:id="movieWatchlistListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
 </VBox>

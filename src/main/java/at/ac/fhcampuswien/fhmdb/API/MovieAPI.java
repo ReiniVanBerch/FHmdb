@@ -1,11 +1,9 @@
 package at.ac.fhcampuswien.fhmdb.API;
 
-import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.Movie_old;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 import java.io.IOException;
@@ -19,7 +17,7 @@ public class MovieAPI {
     final private String FHurl = "https://prog2.fh-campuswien.ac.at/";
 
     Gson gson = new GsonBuilder()
-            .registerTypeAdapter(Movie.class, new MovieAdapter())  // Use the custom adapter
+            .registerTypeAdapter(Movie_old.class, new MovieAdapter())  // Use the custom adapter
             .create();
 
     String run(String url) throws IOException {
@@ -76,12 +74,12 @@ public class MovieAPI {
     }
 
 
-    public Movie getMovie(UUID uuid) throws IOException {
+    public Movie_old getMovie(UUID uuid) throws IOException {
         String subUrl = FHurl + "movies/" + uuid;
         System.out.println(subUrl);
 
         String movieAsString = run(subUrl);
 
-        return gson.fromJson(movieAsString, Movie.class);
+        return gson.fromJson(movieAsString, Movie_old.class);
     }
 }

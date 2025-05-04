@@ -6,9 +6,9 @@ import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,9 +24,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class ControllerBase implements Initializable {
@@ -37,33 +35,29 @@ public abstract class ControllerBase implements Initializable {
     @FXML
     public TextField searchField;
 
-    @FXML
-    public JFXListView movieListView;
 
-    @FXML
-    public JFXComboBox genreComboBox;
-
-    @FXML
-    public JFXComboBox releaseYearComboBox;
-
-    @FXML
-    public JFXComboBox ratingComboBox;
 
     @FXML
     public JFXButton sortBtn;
 
     protected ClickEventHandler clickEventHandler;
     protected DatabaseManager dbm;
-    MovieRepository movieRepo;
 
     public List<MovieEntity> allMovies;
 
     protected final ObservableList<MovieEntity> observableMovies = FXCollections.observableArrayList();
+    protected final ObservableList<MovieEntity> observableWatchlistMovies = FXCollections.observableArrayList();
 
     public ControllerBase() {
         try {
             dbm = new DatabaseManager();
             allMovies = dbm.getMovieDao().queryForAll();
+
+
+
+
+
+
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
 
@@ -76,7 +70,7 @@ public abstract class ControllerBase implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeLogic();
-        initializeUI(this.clickEventHandler);
+        initializeUI(this.clickEventHandler, observableMovies);
     }
 
     public void initializeLogic() {
@@ -84,40 +78,15 @@ public abstract class ControllerBase implements Initializable {
         observableMovies.clear();
         observableMovies.addAll(allMovies);
         sortAscending(observableMovies);
+
+
     }
 
-    public void initializeUI(ClickEventHandler clickEventHandler){
+    public void initializeUI(ClickEventHandler clickEventHandler, ObservableList<MovieEntity> observableMovies) {
 
-        // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
 
-        movieListView.setCellFactory(movieListView -> new MovieCell(clickEventHandler)); // use custom cell factory to display data
 
-        // add Genres to selection (and option to not filter)
-        Genre[] genres = Genre.values();
-        genreComboBox.getItems().add("all genres");
-        genreComboBox.getItems().addAll(genres);
-        genreComboBox.setPromptText("Filter by Genre");
 
-        //add releaseyears
-        releaseYearComboBox.getItems().add("all release years");
-        // releaseyearComboBox.getItems().addAll(allMovies.sort(Comparator.comparing(Movie::getReleaseYear)).release
-        //       );
-        Integer[] years = new Integer[125];
-        for (int i = 0; i < years.length; i++) {
-            years[i] = 1900 + i;
-        }
-        releaseYearComboBox.getItems().addAll(years);
-        releaseYearComboBox.setPromptText("Filter by release year");
-        //ratings button
-        ratingComboBox.getItems().add("all ratings");
-        Integer[] ratings = new Integer[11];
-        for (int i = 0; i < ratings.length; i++) {
-            ratings[i] = i;
-        }
-        ratingComboBox.getItems().addAll(ratings);
-
-        ratingComboBox.setPromptText("Filter by ratings");
         //set initial sort button text
         sortBtn.setText("Sort (desc)");
 
@@ -138,25 +107,24 @@ public abstract class ControllerBase implements Initializable {
 
             title = searchField.getText();
 
-            Object g = genreComboBox.getSelectionModel().getSelectedItem();
-            if(g != null){
-                genre = g.toString();
-                if(genre.toLowerCase() == "all genres"){genre = null;}
-            }
-            else {genre = null;}
+//            Object g = genreComboBox.getSelectionModel().getSelectedItem();
+//            if(g != null){
+//                genre = g.toString();
+//                if(genre.toLowerCase() == "all genres"){genre = null;}
+//            }
+//            else {genre = null;}
+//
+//
+//            try{releaseYear = (int) releaseYearComboBox.getSelectionModel().getSelectedItem();}
+//            catch (Exception e) {releaseYear = 0;}
+//
+//            try{rating = ((int) ratingComboBox.getSelectionModel().getSelectedItem());}
+//            catch (Exception e) {
+//                System.out.println(e);
+//                rating = 0;}
 
-
-            try{releaseYear = (int) releaseYearComboBox.getSelectionModel().getSelectedItem();}
-            catch (Exception e) {releaseYear = 0;}
-
-            try{int ratingInt = ((int) ratingComboBox.getSelectionModel().getSelectedItem());
-                rating = ratingInt;}
-            catch (Exception e) {
-                System.out.println(e);
-                rating = 0;}
-
-            observableMovies.clear();
-            observableMovies.addAll(dbm.getMovieDao().queryForAll());
+            //observableMovies.clear();
+            //observableMovies.addAll(dbm.getMovieDao().queryForAll());
             //api.getMovies(title, genre, releaseYear, rating);
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -183,6 +151,7 @@ public abstract class ControllerBase implements Initializable {
     public void sortDescending(ObservableList<MovieEntity> list) {
         list.sort(Comparator.comparing(MovieEntity::getTitle).reversed());
     }
+
 
 
     /*

@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 
 public class AlertHelper {
     public static void buildAlert(String title, String message) {
+        System.out.println(message);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

@@ -1,7 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.Movie_old;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -107,10 +107,10 @@ public class MovieEntity {
         return genreList.toString();
     }
 
-    public List<MovieEntity> fromMovies (List<Movie> movies) {
+    public List<MovieEntity> fromMovies (List<Movie_old> movieOlds) {
         List<MovieEntity> movieEntities = new ArrayList<>();
 
-        for (Movie m : movies) {
+        for (Movie_old m : movieOlds) {
             movieEntities.add(new MovieEntity(m.getId().toString(), m.getTitle(), m.getDescription(),
                     m.getGenres().toString(), m.getReleaseYear(), m.getImgURL(), m.getLengthInMinutes(), m.getRating()));
         }
@@ -118,14 +118,14 @@ public class MovieEntity {
         return movieEntities;
     }
 
-    public List<Movie> toMovies (List<MovieEntity> movieEntities) {
+    public List<Movie_old> toMovies (List<MovieEntity> movieEntities) {
 
-        List<Movie> movies = new ArrayList<>();
+        List<Movie_old> movieOlds = new ArrayList<>();
         for (MovieEntity me : movieEntities) {
-            movies.add(new Movie(UUID.fromString(me.getApiId()), me.getTitle(),  me.getGenresAsList(), me.getReleaseYear(),
+            movieOlds.add(new Movie_old(UUID.fromString(me.getApiId()), me.getTitle(),  me.getGenresAsList(), me.getReleaseYear(),
                     me.getDescription(), me.getImgUrl(), me.getLengthInMinutes(), me.getRating()));
         }
-        return movies;
+        return movieOlds;
     }
 
 

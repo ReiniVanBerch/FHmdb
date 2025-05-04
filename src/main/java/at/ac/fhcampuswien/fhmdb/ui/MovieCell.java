@@ -2,7 +2,6 @@ package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,10 +21,10 @@ public class MovieCell extends ListCell<MovieEntity> {
     private final VBox layout = new VBox(title, detail, genres,releaseyear,rating, watchlist);
 
     public MovieCell() {}
-    public MovieCell(ClickEventHandler addToWatchlistClicked) {
+    public MovieCell(ClickEventHandler clickEventHandler) {
         super();
         watchlist.setOnMouseClicked(mouseEvent -> {
-            addToWatchlistClicked.onClick(getItem());
+            clickEventHandler.onClick(getItem());
         });
     }
 

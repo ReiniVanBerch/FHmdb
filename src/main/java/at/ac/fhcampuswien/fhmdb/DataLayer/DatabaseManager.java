@@ -48,11 +48,13 @@ public class DatabaseManager {
     public void createTables() throws DatabaseException {
         try{
 
-
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
             TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
-            MovieAPI api = new MovieAPI();
-            this.getMovieDao().create(api.getMovies());
+            if(movieDao.queryForAll().isEmpty()){
+                MovieAPI api = new MovieAPI();
+                this.getMovieDao().create(api.getMovies());
+            }
+
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         } catch (IOException e) {
