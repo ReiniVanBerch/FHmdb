@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
+import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -7,6 +8,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class DatabaseManager {
@@ -45,10 +47,16 @@ public class DatabaseManager {
 
     public void createTables() throws DatabaseException {
         try{
+
+
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
             TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
+            MovieAPI api = new MovieAPI();
+            this.getMovieDao().create(api.getMovies());
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

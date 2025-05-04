@@ -40,16 +40,10 @@ public class FhmdbApplication extends Application {
         */
 
         try {
-            MovieAPI api = new MovieAPI();
 
-            //UUID uuid = UUID.fromString("81d317b0-29e5-4846-97a6-43c07f3edf4a");
-            //String response = example.getMovie(uuid);
-            //String response = example.getMovies().get(0).toString();
-            ;
 
 
             DatabaseManager dbm = new DatabaseManager();
-            dbm.getMovieDao().create(api.getMovies());
 
             Scene scene = new Scene(root, 890, 620);
             scene.getStylesheets().add(Objects.requireNonNull(FhmdbApplication.class.getResource("styles.css")).toExternalForm());
@@ -59,10 +53,6 @@ public class FhmdbApplication extends Application {
 
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
-        } catch (IOException e) {
-            AlertHelper.buildAlert("IOException Error", e.getMessage());
-        } catch (SQLException e) {
-            AlertHelper.buildAlert("SQLException Error", e.getMessage());
         }
 
     }

@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.Controller;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.AlertHelper;
+import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
@@ -51,7 +52,7 @@ public abstract class ControllerBase implements Initializable {
     @FXML
     public JFXButton sortBtn;
 
-
+    protected ClickEventHandler clickEventHandler;
     protected DatabaseManager dbm;
     MovieRepository movieRepo;
 
@@ -75,7 +76,7 @@ public abstract class ControllerBase implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeLogic();
-        initializeUI();
+        initializeUI(this.clickEventHandler);
     }
 
     public void initializeLogic() {
@@ -85,7 +86,45 @@ public abstract class ControllerBase implements Initializable {
         sortAscending(observableMovies);
     }
 
-    public abstract void initializeUI();
+    public void initializeUI(ClickEventHandler clickEventHandler){
+
+        // initialize UI stuff
+        movieListView.setItems(observableMovies);   // set data of observable list to list view
+
+        movieListView.setCellFactory(movieListView -> new MovieCell(clickEventHandler)); // use custom cell factory to display data
+
+        // add Genres to selection (and option to not filter)
+        Genre[] genres = Genre.values();
+        genreComboBox.getItems().add("all genres");
+        genreComboBox.getItems().addAll(genres);
+        genreComboBox.setPromptText("Filter by Genre");
+
+        //add releaseyears
+        releaseYearComboBox.getItems().add("all release years");
+        // releaseyearComboBox.getItems().addAll(allMovies.sort(Comparator.comparing(Movie::getReleaseYear)).release
+        //       );
+        Integer[] years = new Integer[125];
+        for (int i = 0; i < years.length; i++) {
+            years[i] = 1900 + i;
+        }
+        releaseYearComboBox.getItems().addAll(years);
+        releaseYearComboBox.setPromptText("Filter by release year");
+        //ratings button
+        ratingComboBox.getItems().add("all ratings");
+        Integer[] ratings = new Integer[11];
+        for (int i = 0; i < ratings.length; i++) {
+            ratings[i] = i;
+        }
+        ratingComboBox.getItems().addAll(ratings);
+
+        ratingComboBox.setPromptText("Filter by ratings");
+        //set initial sort button text
+        sortBtn.setText("Sort (desc)");
+
+        sortBtn.setOnAction(actionEvent -> sort());
+        searchBtn.setOnAction(actionEvent -> searchBtnClicked());
+        //watchListBtn.setOnAction(actionEvent -> watchListBtnClicked());
+    }
 
     public void searchBtnClicked(){
         try {
@@ -118,7 +157,7 @@ public abstract class ControllerBase implements Initializable {
 
             observableMovies.clear();
             observableMovies.addAll(dbm.getMovieDao().queryForAll());
-                    api.getMovies(title, genre, releaseYear, rating);
+            //api.getMovies(title, genre, releaseYear, rating);
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Error");
