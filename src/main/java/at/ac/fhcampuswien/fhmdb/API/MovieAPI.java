@@ -43,6 +43,9 @@ public class MovieAPI {
         //Tokenizes the typeToken so we have a specific listType for the api
 
         Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(MovieEntity.class, new MovieAdapter())
+                .create();
         return gson.fromJson(moviesAsString, listType);
     }
 
@@ -66,6 +69,9 @@ public class MovieAPI {
         //Tokenizes the typeToken so we have a specific listType for the api
 
         Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(MovieEntity.class, new MovieAdapter())
+                .create();
         return gson.fromJson(moviesAsString, listType);
     }
 

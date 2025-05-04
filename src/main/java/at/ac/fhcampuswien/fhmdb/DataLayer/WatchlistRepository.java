@@ -13,11 +13,10 @@ public class WatchlistRepository {
     private final Dao<WatchlistMovieEntity, Long> dao;
 
     public WatchlistRepository() throws DatabaseException {
-        try{
-            this.dao = DaoManager.createDao(DatabaseManager.getConn(), WatchlistMovieEntity.class);
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+
+        DatabaseManager dm = new DatabaseManager();
+        this.dao = dm.getWatchlistDao();
+
     }
 
     public List<WatchlistMovieEntity> getWatchlist() throws SQLException {

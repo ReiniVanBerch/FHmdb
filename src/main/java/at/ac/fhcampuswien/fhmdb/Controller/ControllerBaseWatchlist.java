@@ -27,16 +27,10 @@ public class ControllerBaseWatchlist extends ControllerBase{
                 observableMovies.remove(movie.getApiId());
 
             }
-
         }
         catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
         }
-
-
-
-
-
     };
 
     private void addToWatchlist(WatchlistMovieEntity movie) {

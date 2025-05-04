@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
+import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.table.DatabaseTable;
@@ -12,8 +13,9 @@ import java.util.List;
 public class MovieRepository {
     private final Dao<MovieEntity, Long> dao;
 
-    public MovieRepository() throws SQLException {
-        this.dao = DaoManager.createDao(DatabaseManager.getConn(), MovieEntity.class);
+    public MovieRepository() throws DatabaseException {
+        DatabaseManager dm = new DatabaseManager();
+        this.dao = dm.getMovieDao();
     }
 
     public List<MovieEntity> getAllMovies() throws SQLException {

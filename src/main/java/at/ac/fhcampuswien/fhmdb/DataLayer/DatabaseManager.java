@@ -14,36 +14,36 @@ public class DatabaseManager {
     private static String DB_URL = "jdbc:h2:./DataLayer/moviedb";
     private static String username = "admin";
     private static String password = "";
-    private static ConnectionSource conn;
-    private static Dao<MovieEntity, Long> movieDao;
-    private static Dao<WatchlistMovieEntity, Long> watchlistDao;
+    private ConnectionSource conn;
+    private Dao<MovieEntity, Long> movieDao;
+    private Dao<WatchlistMovieEntity, Long> watchlistDao;
 
     public DatabaseManager() throws DatabaseException {
         init();
     }
 
-    public static void init() throws DatabaseException {
+    public void init() throws DatabaseException {
         createConnectionSource();
         createTables();
     }
 
-    public static void createConnectionSource() throws DatabaseException {
+    public void createConnectionSource() throws DatabaseException {
         try {
-            conn = new JdbcConnectionSource(DB_URL, username, password);
-            movieDao = DaoManager.createDao(conn, MovieEntity.class);
-            watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
+            this.conn = new JdbcConnectionSource(DB_URL, username, password);
+            this.movieDao = DaoManager.createDao(this.conn, MovieEntity.class);
+            this.watchlistDao = DaoManager.createDao(this.conn, WatchlistMovieEntity.class);
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
 ;
     }
 
-    public static ConnectionSource getConn() {
+    public ConnectionSource getConn() {
         return conn;
     }
 
 
-    public static void createTables() throws DatabaseException {
+    public void createTables() throws DatabaseException {
         try{
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
             TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);

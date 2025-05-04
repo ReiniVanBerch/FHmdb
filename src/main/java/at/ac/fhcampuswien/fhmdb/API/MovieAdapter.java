@@ -1,27 +1,33 @@
 package at.ac.fhcampuswien.fhmdb.API;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
-class MovieAdapter implements JsonDeserializer<Movie> {
+class MovieAdapter implements JsonDeserializer<MovieEntity> {
     @Override
-    public Movie deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public MovieEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jo = json.getAsJsonObject();
 
-        UUID id = UUID.fromString(jo.get("id").getAsString());
+        String apiId = jo.get("id").getAsString();
 
         String title = jo.get("title").getAsString();
         String description = jo.get("description").getAsString();
         String imgURL = jo.get("imgUrl").getAsString();
 
-        List<Genre> genres = context.deserialize(jo.get("genres"), List.class);
+        List<Genre> genresAsGenre = context.deserialize(jo.get("genres"), new TypeToken<List<Genre>>() {}.getType());
+        String genres = genresAsGenre.stream()
+                .map(Genre::toString)
+                .collect(Collectors.joining(", "));
 
-        List<String> mainCast = context.deserialize(jo.get("mainCast"), List.class);
-        List<String> writers = context.deserialize(jo.get("writers"), List.class);
-        List<String> directors = context.deserialize(jo.get("directors"), List.class);
+
+//        List<String> mainCast = context.deserialize(jo.get("mainCast"), List.class);
+//        List<String> writers = context.deserialize(jo.get("writers"), List.class);
+//        List<String> directors = context.deserialize(jo.get("directors"), List.class);
 
         int releaseYear = jo.get("releaseYear").getAsInt();
         int lengthInMinutes = jo.get("lengthInMinutes").getAsInt();
@@ -30,17 +36,14 @@ class MovieAdapter implements JsonDeserializer<Movie> {
 
 
 
-        return new Movie(
-                id,
+        return new MovieEntity(
+                apiId,
                 title,
+                description,
                 genres,
                 releaseYear,
-                description,
                 imgURL,
                 lengthInMinutes,
-                directors,
-                writers,
-                mainCast,
                 rating);
     }
 }

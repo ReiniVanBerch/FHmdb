@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -11,7 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class MovieCellWatchlist extends ListCell<Movie> {
+public class MovieCellWatchlist extends ListCell<MovieEntity> {
     private final Label title = new Label();
     private final Label detail = new Label();
     private final Label genres = new Label();
@@ -29,7 +30,7 @@ public class MovieCellWatchlist extends ListCell<Movie> {
     }
 
     @Override
-    protected void updateItem(Movie movie, boolean empty) {
+    protected void updateItem(MovieEntity movie, boolean empty) {
         super.updateItem(movie, empty);
 
         if (empty || movie == null) {
