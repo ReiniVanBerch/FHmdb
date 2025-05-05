@@ -46,10 +46,11 @@ public class FhmdbApplication extends Application {
         FXMLLoader sceneLoader = new FXMLLoader(FhmdbApplication.class.getResource( "base.fxml"));
         FXMLLoader homeLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
         FXMLLoader watchlistLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view-watchlist.fxml"));
-
+        FXMLLoader infoLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-info.fxml"));
         ControllerScene sceneController = new ControllerScene();
         ControllerBaseHome homeController = new ControllerBaseHome();
         ControllerBaseWatchlist watchlistController = new ControllerBaseWatchlist();
+
         homeController.tab2 = watchlistController;
 
         homeLoader.setController(homeController);
@@ -59,12 +60,15 @@ public class FhmdbApplication extends Application {
         try{
             Tab home = homeLoader.load();
             Tab watchlist = watchlistLoader.load();
+            Tab info = infoLoader.load();
 
             sceneLoader.setController(sceneController);
             Parent root = sceneLoader.load();
 
             sceneController.tabPane.getTabs().add(home);
             sceneController.tabPane.getTabs().add(watchlist);
+            sceneController.tabPane.getTabs().add(info);
+
 
             return root;
 
