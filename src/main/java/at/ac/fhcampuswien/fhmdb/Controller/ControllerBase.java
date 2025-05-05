@@ -67,6 +67,8 @@ public abstract class ControllerBase implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
         initializeUI(this.clickEventHandler);
 
     }

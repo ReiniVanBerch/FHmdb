@@ -6,4 +6,8 @@ import javafx.scene.control.TabPane;
 public class ControllerScene {
     @FXML
     public TabPane tabPane;
+
+    public ControllerScene(){
+        tabPane = new TabPane();
+    }
 }
