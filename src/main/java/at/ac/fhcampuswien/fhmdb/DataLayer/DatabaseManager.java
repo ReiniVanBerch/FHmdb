@@ -1,7 +1,9 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -26,7 +28,12 @@ public class DatabaseManager {
 
     public void init() throws DatabaseException {
         createConnectionSource();
-        createTables();
+
+        try {
+            createTables();
+        } catch (MovieApiException e) {
+            AlertHelper.buildAlert("MovieAoi Error", e.getMessage());
+        }
     }
 
     public void createConnectionSource() throws DatabaseException {
@@ -45,7 +52,7 @@ public class DatabaseManager {
     }
 
 
-    public void createTables() throws DatabaseException {
+    public void createTables() throws DatabaseException, MovieApiException {
         try{
 
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
@@ -57,8 +64,6 @@ public class DatabaseManager {
 
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

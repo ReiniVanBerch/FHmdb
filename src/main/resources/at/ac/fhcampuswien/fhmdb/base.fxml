@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 
 
-      <TabPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane"  tabClosingPolicy="UNAVAILABLE" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerScene">
+<?import javafx.scene.text.Text?>
+<TabPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerScene">
       <tabs>
          <Tab text="Home">
             <content>
@@ -16,6 +17,18 @@
                <fx:include fx:id="Watchlist" source="home-view-watchlist.fxml" />
             </content>
          </Tab>
+          <Tab text="Info">
+              <content>
+                  <TextArea>
+                      Written by :
+                      Vincent Berchtold -
+                      Ayden Kierein -
+                      Florian Koller -
+                      Lorenz Schneider -
+                      Vladlena Velenteenko
+                  </TextArea>
+              </content>
+          </Tab>
       </tabs>
    </TabPane>
 
