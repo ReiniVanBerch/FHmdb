@@ -4,19 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 
-      <TabPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane"  tabClosingPolicy="UNAVAILABLE" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerScene">
-      <tabs>
-         <Tab text="Home">
-            <content>
-               <fx:include fx:id="Home" source="home-view.fxml" />
-            </content>
-         </Tab>
-         <Tab text="Watchlist">
-            <content>
-               <fx:include fx:id="Watchlist" source="home-view-watchlist.fxml" />
-            </content>
-         </Tab>
-      </tabs>
-   </TabPane>
+<?import javafx.scene.text.Text?>
+<TabPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+
+</TabPane>
 
 

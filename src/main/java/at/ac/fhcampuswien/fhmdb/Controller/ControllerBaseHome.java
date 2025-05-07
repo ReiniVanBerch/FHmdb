@@ -57,6 +57,7 @@ public class ControllerBaseHome extends ControllerBase {
                 try {
                     WatchlistRepository repository = new WatchlistRepository();
                     repository.addToWatchlist(watchlistMovieEntity);
+                    tab2.update();
 
                 } catch (DatabaseException e) {
                     AlertHelper.buildAlert("Database Error", e.getMessage());

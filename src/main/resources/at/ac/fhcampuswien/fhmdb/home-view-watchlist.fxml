@@ -10,30 +10,33 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
-<VBox  xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseWatchlist">
-   <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="347.0" spacing="20.0" style="-fx-background-color: black;">
-      <padding>
-         <Insets bottom="7.0" left="10.0" top="7.0" />
-      </padding>
-      <children>
-         <Label style="-fx-background-color: ffa31a;" text="FHMDb">
-            <font>
-               <Font name="Calibri Bold" size="24.0" />
-            </font>
-            <padding>
-               <Insets left="2.0" right="2.0" />
-            </padding>
-         </Label>
-         <Label styleClass="text-white" stylesheets="@styles.css" text="Watchlist" />
-      </children>
-   </HBox>
-   <HBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
-      <VBox.margin>
-         <Insets />
-      </VBox.margin>
-      <padding>
-         <Insets bottom="20.0" left="10.0" top="20.0" />
-      </padding>
-   </HBox>
-   <JFXListView fx:id="movieWatchlistListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
-</VBox>
+<?import javafx.scene.control.Tab?>
+<Tab text="watchlist">
+   <VBox  xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+      <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="347.0" spacing="20.0" style="-fx-background-color: black;">
+         <padding>
+            <Insets bottom="7.0" left="10.0" top="7.0" />
+         </padding>
+         <children>
+            <Label style="-fx-background-color: ffa31a;" text="FHMDb">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+               <padding>
+                  <Insets left="2.0" right="2.0" />
+               </padding>
+            </Label>
+            <Label styleClass="text-white" stylesheets="@styles.css" text="Watchlist" />
+         </children>
+      </HBox>
+      <HBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="20.0" left="10.0" top="20.0" />
+         </padding>
+      </HBox>
+      <JFXListView fx:id="movieWatchlistListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
+   </VBox>
+</Tab>

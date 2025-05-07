@@ -12,5 +12,4 @@ public class MovieApiException extends Exception {
     public MovieApiException(Exception e) {
         super(e);
     }
-
 }
