@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -20,11 +21,11 @@ public class DatabaseManager {
     private Dao<MovieEntity, Long> movieDao;
     private Dao<WatchlistMovieEntity, Long> watchlistDao;
 
-    public DatabaseManager() throws DatabaseException {
+    public DatabaseManager() throws DatabaseException, MovieApiException {
         init();
     }
 
-    public void init() throws DatabaseException {
+    public void init() throws DatabaseException, MovieApiException {
         createConnectionSource();
         createTables();
     }
@@ -45,7 +46,7 @@ public class DatabaseManager {
     }
 
 
-    public void createTables() throws DatabaseException {
+    public void createTables() throws DatabaseException, MovieApiException {
         try{
 
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
@@ -58,7 +59,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MovieApiException(e);
         }
     }
 

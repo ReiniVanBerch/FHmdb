@@ -7,6 +7,7 @@ import at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseWatchlist;
 import at.ac.fhcampuswien.fhmdb.Controller.ControllerScene;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +40,8 @@ public class FhmdbApplication extends Application {
 
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
+        } catch (MovieApiException e) {
+            AlertHelper.buildAlert("MovieApi Error", e.getMessage());
         }
 
     }

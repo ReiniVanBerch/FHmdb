@@ -18,17 +18,28 @@ public class MovieRepository {
         this.dao = dm.getMovieDao();
     }
 
-    public List<MovieEntity> getAllMovies() throws SQLException {
-        return dao.queryForAll();
+    public List<MovieEntity> getAllMovies() throws DatabaseException {
+        try {
+            return dao.queryForAll();
+        } catch (Exception e) {
+            throw new DatabaseException(e);
+        }
+
     }
 
     public int removeAll() throws SQLException {
         return dao.deleteBuilder().delete();
     }
 
-    public MovieEntity getMovie() throws SQLException {
-        List<MovieEntity> all = dao.queryForAll();
-        return all.isEmpty() ? null : all.get(0);      // Liste leer --> null , sonnst den ersten Film
+    public MovieEntity getMovie() throws DatabaseException {
+         // Liste leer --> null , sonnst den ersten Film
+        try {
+            List<MovieEntity> all = dao.queryForAll();
+            return all.isEmpty() ? null : all.get(0);
+        } catch (Exception e) {
+            throw new DatabaseException(e);
+        }
+
     }
 
     public MovieEntity getMovie(String apiId) throws DatabaseException {
@@ -40,12 +51,19 @@ public class MovieRepository {
         }
     }
 
-    public int addAllMovies(List<MovieEntity> movies) throws SQLException {
-        int count = 0;
-        for (MovieEntity movie : movies) {
-            dao.createOrUpdate(movie);
-            count++;
+    public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {
+
+        try {
+            int count = 0;
+            for (MovieEntity movie : movies) {
+                dao.createOrUpdate(movie);
+                count++;
+            }
+            return count;
+        } catch (Exception e) {
+            throw new DatabaseException(e);
         }
-        return count;
+
+
     }
 }
