@@ -7,6 +7,7 @@ import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCellWatchlist;
 import com.jfoenix.controls.JFXListView;
@@ -58,35 +59,44 @@ public class ControllerBaseWatchlist extends ControllerBase{
         List<WatchlistMovieEntity> watchlistMoviesAsWatchlist = null;
         try {
 
-            watchlistRepository = new WatchlistRepository();
-            watchlistMoviesAsWatchlist = watchlistRepository.getWatchlist();
+            try {
 
-            MovieRepository movieRepository = new MovieRepository();
-            List<MovieEntity> movies = new ArrayList<>();
+                watchlistRepository = new WatchlistRepository();
+                watchlistMoviesAsWatchlist = watchlistRepository.getWatchlist();
 
-            for(WatchlistMovieEntity movie : watchlistMoviesAsWatchlist) {
-                movies.add(movieRepository.getMovie(movie.getApiId()));
+                MovieRepository movieRepository = new MovieRepository();
+                List<MovieEntity> movies = new ArrayList<>();
+
+                for(WatchlistMovieEntity movie : watchlistMoviesAsWatchlist) {
+                    movies.add(movieRepository.getMovie(movie.getApiId()));
+                }
+
+
+                watchlistMoviesAsWatchlist = dbm.getWatchlistDao().queryForAll();
+
+                System.out.println(watchlistMoviesAsWatchlist);
+
+                List<String> apiIds = watchlistMoviesAsWatchlist.stream()
+                        .map(WatchlistMovieEntity::getApiId)
+                        .collect(Collectors.toList());
+
+
+                watchlistMovies = dbm.getMovieDao().queryBuilder()
+                        .where()
+                        .in("apiId", apiIds)
+                        .query();
+
+            } catch (SQLException e) {
+                throw new DatabaseException(e);
             }
 
-            watchlistMoviesAsWatchlist = dbm.getWatchlistDao().queryForAll();
-            System.out.println(watchlistMoviesAsWatchlist);
-
-            List<String> apiIds = watchlistMoviesAsWatchlist.stream()
-                    .map(WatchlistMovieEntity::getApiId)
-                    .collect(Collectors.toList());
-
-
-            watchlistMovies = dbm.getMovieDao().queryBuilder()
-                    .where()
-                    .in("apiId", apiIds)
-                    .query();
 
 
             observableMovies.clear();
             observableMovies.setAll(watchlistMovies);
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (MovieApiException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.table.DatabaseTable;
@@ -13,7 +14,7 @@ import java.util.List;
 public class MovieRepository {
     private final Dao<MovieEntity, Long> dao;
 
-    public MovieRepository() throws DatabaseException {
+    public MovieRepository() throws DatabaseException, MovieApiException {
         DatabaseManager dm = new DatabaseManager();
         this.dao = dm.getMovieDao();
     }
