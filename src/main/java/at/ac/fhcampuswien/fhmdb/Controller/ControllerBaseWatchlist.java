@@ -95,9 +95,9 @@ public class ControllerBaseWatchlist extends ControllerBase{
             observableMovies.clear();
             observableMovies.setAll(watchlistMovies);
         } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+            AlertHelper.buildAlert("DataBaseError", e.getMessage());
         } catch (MovieApiException e) {
-            throw new RuntimeException(e);
+            AlertHelper.buildAlert("MovieAPI", e.getMessage());
         }
     }
 
