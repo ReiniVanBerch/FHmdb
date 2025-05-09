@@ -3,8 +3,6 @@ package at.ac.fhcampuswien.fhmdb.DataLayer;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,8 +18,12 @@ public class WatchlistRepository {
 
     }
 
-    public List<WatchlistMovieEntity> getWatchlist() throws SQLException {
-        return dao.queryForAll();
+    public List<WatchlistMovieEntity> getWatchlist() throws DatabaseException {
+        try {
+            return dao.queryForAll();
+        } catch (SQLException e) {
+            throw new DatabaseException("Fehler beim laden deiner Watchlist. " + e.getMessage());
+        }
     }
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
@@ -34,7 +36,7 @@ public class WatchlistRepository {
             }
 
         } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
+            throw new DatabaseException("Fehler beim Hinzufügen des Films zur Watchlist. " + e.getMessage());
         }
     }
 
@@ -47,7 +49,7 @@ public class WatchlistRepository {
             }
             return deleted;
         } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
+            throw new DatabaseException("Fehler beim Entfernen des Films aus der Watchlist. " + e.getMessage());
         }
     }
 }

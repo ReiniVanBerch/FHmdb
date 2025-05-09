@@ -3,7 +3,6 @@ package at.ac.fhcampuswien.fhmdb.DataLayer;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
@@ -22,14 +21,18 @@ public class MovieRepository {
     public List<MovieEntity> getAllMovies() throws DatabaseException {
         try {
             return dao.queryForAll();
-        } catch (Exception e) {
-            throw new DatabaseException(e);
+        } catch (SQLException e) {
+            throw new DatabaseException("Fehler beim Laden der Filme. " + e);
         }
 
     }
 
-    public int removeAll() throws SQLException {
-        return dao.deleteBuilder().delete();
+    public int removeAll() throws DatabaseException {
+        try {
+            return dao.deleteBuilder().delete();
+        } catch (SQLException e) {
+            throw new DatabaseException("Fehler beim Entfernen der Filme. " + e);
+        }
     }
 
     public MovieEntity getMovie() throws DatabaseException {
@@ -38,7 +41,7 @@ public class MovieRepository {
             List<MovieEntity> all = dao.queryForAll();
             return all.isEmpty() ? null : all.get(0);
         } catch (Exception e) {
-            throw new DatabaseException(e);
+            throw new DatabaseException("Fehler beim Abrufen eines Films aus der Datenbank. " + e);
         }
 
     }
@@ -48,7 +51,7 @@ public class MovieRepository {
 
             return dao.queryBuilder().where().eq("apiId", apiId).queryForFirst();
         } catch (SQLException e) {
-            throw new DatabaseException(e);
+            throw new DatabaseException("Fehler beim Laden des Films mit der angegebenen ID. " + e);
         }
     }
 
@@ -62,9 +65,8 @@ public class MovieRepository {
             }
             return count;
         } catch (Exception e) {
-            throw new DatabaseException(e);
+            throw new DatabaseException("Fehler beim Speichern der Filme in der DAtenbank. " + e);
         }
-
 
     }
 }
