@@ -59,7 +59,7 @@ public class ControllerBaseHome extends ControllerBase {
                     WatchlistRepository repository = new WatchlistRepository();
                     if (!repository.getWatchlist().contains(watchlistMovieEntity)){
                         repository.addToWatchlist(watchlistMovieEntity);
-                        AlertHelper.buildAlert(movie.getTitle(), movie.getApiId());
+                        AlertHelper.buildAlert(movie.getTitle(), "Added "+ movie.getTitle()+" to Watchlist");
                         tab2.update();
                     }
 
