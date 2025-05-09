@@ -8,6 +8,7 @@ import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXComboBox;
@@ -61,6 +62,8 @@ public class ControllerBaseHome extends ControllerBase {
 
                 } catch (DatabaseException e) {
                     AlertHelper.buildAlert("Database Error", e.getMessage());
+                } catch (MovieApiException e) {
+                    AlertHelper.buildAlert("API Error", e.getMessage());
                 }
             } else{
                 System.out.println(clickedItem.getClass());

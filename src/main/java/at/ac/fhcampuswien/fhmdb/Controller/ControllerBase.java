@@ -8,6 +8,7 @@ import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
@@ -53,14 +54,17 @@ public abstract class ControllerBase implements Initializable {
 
     public ControllerBase() {
         try {
-            dbm = new DatabaseManager();
-            allMovies = dbm.getMovieDao().queryForAll();
-
+            try {
+                dbm = new DatabaseManager();
+                allMovies = dbm.getMovieDao().queryForAll();
+            } catch (SQLException e) {
+                throw new MovieApiException(e);
+            }
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
 
-        } catch (SQLException e) {
-            AlertHelper.buildAlert("SQL Error", e.getMessage());
+        } catch (MovieApiException e) {
+            AlertHelper.buildAlert("MovieAPI Error", e.getMessage());
 
         }
     }

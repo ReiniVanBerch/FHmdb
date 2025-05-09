@@ -46,6 +46,8 @@ public class ControllerBaseWatchlist extends ControllerBase{
         }
         catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
+        } catch (MovieApiException e) {
+            AlertHelper.buildAlert("API Error", e.getMessage());
         }
     };
 

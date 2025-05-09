@@ -59,8 +59,6 @@ public class DatabaseManager {
 
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
-        } catch (IOException e) {
-            throw new MovieApiException(e);
         }
     }
 
