@@ -23,7 +23,11 @@ public class DatabaseManager {
     private Dao<WatchlistMovieEntity, Long> watchlistDao;
 
     public DatabaseManager() throws DatabaseException, MovieApiException {
-        init();
+        try {
+            init();
+        } catch (DatabaseException | MovieApiException e) {
+            throw new DatabaseException("INIT in DatabaseManager failed: " + e.getMessage());
+        }
     }
 
     public void init() throws DatabaseException, MovieApiException {
@@ -37,7 +41,7 @@ public class DatabaseManager {
             this.movieDao = DaoManager.createDao(this.conn, MovieEntity.class);
             this.watchlistDao = DaoManager.createDao(this.conn, WatchlistMovieEntity.class);
         } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
+            throw new DatabaseException("create Connection in DatabaseManager failed: " + e.getMessage());
         }
 ;
     }
@@ -53,12 +57,19 @@ public class DatabaseManager {
             TableUtils.createTableIfNotExists(conn, MovieEntity.class);
             TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
             if(movieDao.queryForAll().isEmpty()){
-                MovieAPI api = new MovieAPI();
-                this.getMovieDao().create(api.getMovies());
+                try {
+                    MovieAPI api = new MovieAPI();
+                    this.getMovieDao().create(api.getMovies());
+                } catch (MovieApiException e) {
+                    throw new MovieApiException("fetching initial movies failed in create tables in DatabaseManager " + e.getMessage());
+                } catch (SQLException e) {
+                    throw new DatabaseException("insert initial movies failed in create tables in DatabaseManager" + e.getMessage());
+                }
+
             }
 
         } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
+            throw new DatabaseException("create tables failed in DatabaseManager" + e.getMessage());
         }
     }
 
