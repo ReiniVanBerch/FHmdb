@@ -47,8 +47,8 @@ public class MovieRepository {
     }
 
     public MovieEntity getMovie(String apiId) throws DatabaseException {
-        try{
 
+        try{
             return dao.queryBuilder().where().eq("apiId", apiId).queryForFirst();
         } catch (SQLException e) {
             throw new DatabaseException("Fehler beim Laden des Films mit der angegebenen ID. " + e);
