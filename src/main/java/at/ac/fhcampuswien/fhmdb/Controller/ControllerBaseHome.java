@@ -57,8 +57,12 @@ public class ControllerBaseHome extends ControllerBase {
 
                 try {
                     WatchlistRepository repository = new WatchlistRepository();
-                    repository.addToWatchlist(watchlistMovieEntity);
-                    tab2.update();
+                    if (!repository.getWatchlist().contains(watchlistMovieEntity)){
+                        repository.addToWatchlist(watchlistMovieEntity);
+                        AlertHelper.buildAlert(movie.getTitle(), movie.getApiId());
+                        tab2.update();
+                    }
+
 
                 } catch (DatabaseException e) {
                     AlertHelper.buildAlert("Database Error", e.getMessage());
@@ -155,12 +159,15 @@ public class ControllerBaseHome extends ControllerBase {
                 System.out.println(e);
                 rating = 0;}
 
+            //dbm.getMovieDao().delete(observableMovies);
             List<MovieEntity> movies = api.getMovies(title, genre, releaseYear, rating);
+
             observableMovies.clear();
             observableMovies.addAll(movies);
 
-            dbm.getMovieDao().clearObjectCache();
-            dbm.getMovieDao().create(movies);
+
+//            dbm.getMovieDao().clearObjectCache();
+//            dbm.getMovieDao().create(movies);
 
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);

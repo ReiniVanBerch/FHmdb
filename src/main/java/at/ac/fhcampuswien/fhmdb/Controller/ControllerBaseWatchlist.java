@@ -30,15 +30,15 @@ public class ControllerBaseWatchlist extends ControllerBase{
     public JFXListView movieWatchlistListView;
 
     private WatchlistRepository watchlistRepository;
-    private List<MovieEntity> watchlistMovies;
+    private List<MovieEntity> watchlistMovies = new ArrayList<>();
     private ObservableList<MovieEntity> observableMovies = FXCollections.observableArrayList();
 
     private final ClickEventHandler onRemoveFromWatchlistClicked = (clickedItem) -> {
         try{
             if(clickedItem instanceof MovieEntity movie){
 
-                WatchlistRepository watchlistRepository = new WatchlistRepository();
                 watchlistRepository.removeFromWatchlist(movie.getApiId());
+
                 watchlistMovies.remove(movie.getApiId());
 
                 update();
@@ -46,47 +46,41 @@ public class ControllerBaseWatchlist extends ControllerBase{
         }
         catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
-        } catch (MovieApiException e) {
-            AlertHelper.buildAlert("API Error", e.getMessage());
         }
     };
 
-    public ControllerBaseWatchlist() {
+    public ControllerBaseWatchlist() throws MovieApiException, DatabaseException {
         super();
+
+
+        watchlistRepository = new WatchlistRepository();
         update();
+
     }
 
     public void update(){
 
-        List<WatchlistMovieEntity> watchlistMoviesAsWatchlist = null;
+        List<WatchlistMovieEntity> watchlistMoviesAsList;
         try {
 
             try {
 
-                watchlistRepository = new WatchlistRepository();
-                watchlistMoviesAsWatchlist = watchlistRepository.getWatchlist();
 
-                MovieRepository movieRepository = new MovieRepository();
-                List<MovieEntity> movies = new ArrayList<>();
-
-                for(WatchlistMovieEntity movie : watchlistMoviesAsWatchlist) {
-                    movies.add(movieRepository.getMovie(movie.getApiId()));
-                }
+                watchlistMoviesAsList = watchlistRepository.getWatchlist();
 
 
-                watchlistMoviesAsWatchlist = dbm.getWatchlistDao().queryForAll();
-
-                System.out.println(watchlistMoviesAsWatchlist);
-
-                List<String> apiIds = watchlistMoviesAsWatchlist.stream()
+                List<String> apiIds = watchlistMoviesAsList.stream()
                         .map(WatchlistMovieEntity::getApiId)
                         .collect(Collectors.toList());
 
-
+                watchlistMovies.clear();
                 watchlistMovies = dbm.getMovieDao().queryBuilder()
                         .where()
                         .in("apiId", apiIds)
                         .query();
+
+                observableMovies.clear();
+                observableMovies.setAll(watchlistMovies);
 
             } catch (SQLException e) {
                 throw new DatabaseException(e);
@@ -94,12 +88,9 @@ public class ControllerBaseWatchlist extends ControllerBase{
 
 
 
-            observableMovies.clear();
-            observableMovies.setAll(watchlistMovies);
+
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("DataBaseError", e.getMessage());
-        } catch (MovieApiException e) {
-            AlertHelper.buildAlert("MovieAPI", e.getMessage());
         }
     }
 

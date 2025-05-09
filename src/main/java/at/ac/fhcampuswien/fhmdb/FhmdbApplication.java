@@ -45,7 +45,7 @@ public class FhmdbApplication extends Application {
 
     }
 
-    public static Parent makeRoot() {
+    public static Parent makeRoot() throws MovieApiException, DatabaseException {
         FXMLLoader sceneLoader = new FXMLLoader(FhmdbApplication.class.getResource( "base.fxml"));
         FXMLLoader homeLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
         FXMLLoader watchlistLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view-watchlist.fxml"));
