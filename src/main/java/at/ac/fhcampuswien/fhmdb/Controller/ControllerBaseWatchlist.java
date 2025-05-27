@@ -51,9 +51,7 @@ public class ControllerBaseWatchlist extends ControllerBase{
 
     public ControllerBaseWatchlist() throws MovieApiException, DatabaseException {
         super();
-
-
-        watchlistRepository = new WatchlistRepository();
+        watchlistRepository = WatchlistRepository.getInstance();
         update();
 
     }

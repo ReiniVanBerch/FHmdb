@@ -12,9 +12,14 @@ import java.util.List;
 @DatabaseTable(tableName = "movies")
 public class MovieRepository {
     private final Dao<MovieEntity, Long> dao;
+    private static final MovieRepository instance = new MovieRepository();
 
-    public MovieRepository() throws DatabaseException, MovieApiException {
-        DatabaseManager dm = new DatabaseManager();
+    public static MovieRepository getInstance() {
+        return instance;
+    }
+
+    private MovieRepository() {
+        DatabaseManager dm = DatabaseManager.getInstance();
         this.dao = dm.getMovieDao();
     }
 

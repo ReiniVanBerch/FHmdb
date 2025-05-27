@@ -56,9 +56,9 @@ public class ControllerBaseHome extends ControllerBase {
 
 
                 try {
-                    WatchlistRepository repository = new WatchlistRepository();
-                    if (!repository.getWatchlist().contains(watchlistMovieEntity)){
-                        repository.addToWatchlist(watchlistMovieEntity);
+                    WatchlistRepository watchlistRepository = WatchlistRepository.getInstance();
+                    if (!watchlistRepository.getWatchlist().contains(watchlistMovieEntity)){
+                        watchlistRepository.addToWatchlist(watchlistMovieEntity);
                         AlertHelper.buildAlert(movie.getTitle(), "Added "+ movie.getTitle()+" to Watchlist");
                         tab2.update();
                     }
@@ -66,8 +66,6 @@ public class ControllerBaseHome extends ControllerBase {
 
                 } catch (DatabaseException e) {
                     AlertHelper.buildAlert("Database Error", e.getMessage());
-                } catch (MovieApiException e) {
-                    AlertHelper.buildAlert("API Error", e.getMessage());
                 }
             } else{
                 System.out.println(clickedItem.getClass());

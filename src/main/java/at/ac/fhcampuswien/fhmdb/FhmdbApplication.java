@@ -24,7 +24,7 @@ public class FhmdbApplication extends Application {
 
 
         try {
-            DatabaseManager dbm = new DatabaseManager();
+            DatabaseManager dbm = DatabaseManager.getInstance();
 
             Parent root = makeRoot();
 

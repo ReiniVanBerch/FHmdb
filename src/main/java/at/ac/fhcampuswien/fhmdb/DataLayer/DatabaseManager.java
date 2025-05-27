@@ -15,20 +15,33 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
 
-    private static String DB_URL = "jdbc:h2:./DataLayer/moviedb";
+    private static String DB_URL = "jdbc:h2:./Data/moviedb";
     private static String username = "admin";
     private static String password = "";
     private ConnectionSource conn;
     private Dao<MovieEntity, Long> movieDao;
     private Dao<WatchlistMovieEntity, Long> watchlistDao;
 
-    public DatabaseManager() throws DatabaseException, MovieApiException {
-        try {
-            init();
-        } catch (DatabaseException | MovieApiException e) {
-            throw new DatabaseException("INIT in DatabaseManager failed: " + e.getMessage());
+    private static DatabaseManager instance = new DatabaseManager();
+
+
+
+    private DatabaseManager()  {
+        try{
+            try {
+                init();
+            } catch (DatabaseException | MovieApiException e) {
+                throw new DatabaseException("INIT in DatabaseManager failed: " + e.getMessage());
+            }
+        } catch (DatabaseException e) {
+            AlertHelper.buildAlert("Database error", e.getMessage());
         }
     }
+
+    public static DatabaseManager getInstance() {
+        return instance;
+    }
+
 
     public void init() throws DatabaseException, MovieApiException {
         createConnectionSource();

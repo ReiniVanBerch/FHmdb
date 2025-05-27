@@ -55,15 +55,12 @@ public abstract class ControllerBase implements Initializable {
     public ControllerBase() {
         try {
             try {
-                dbm = new DatabaseManager();
+                dbm = DatabaseManager.getInstance();
                 allMovies = dbm.getMovieDao().queryForAll();
             } catch (SQLException e) {
                 throw new MovieApiException(e);
             }
-        } catch (DatabaseException e) {
-            AlertHelper.buildAlert("Database Error", e.getMessage());
-
-        } catch (MovieApiException e) {
+        }  catch (MovieApiException e) {
             AlertHelper.buildAlert("MovieAPI Error", e.getMessage());
 
         }
