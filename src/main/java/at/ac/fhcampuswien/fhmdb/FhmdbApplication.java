@@ -40,7 +40,7 @@ public class FhmdbApplication extends Application {
         } catch (DatabaseException e) {
             AlertHelper.buildAlert("Database Error", e.getMessage());
         } catch (MovieApiException e) {
-            AlertHelper.buildAlert("MovieApi Error", e.getMessage());
+            AlertHelper.buildAlert("MovieApi Error", "Likely missing internet connection, or address unreachable \n" + e.getMessage());
         }
 
     }

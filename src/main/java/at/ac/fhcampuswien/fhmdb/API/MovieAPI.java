@@ -2,7 +2,6 @@ package at.ac.fhcampuswien.fhmdb.API;
 
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
-import at.ac.fhcampuswien.fhmdb.models.Movie_old;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -10,16 +9,13 @@ import okhttp3.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.UUID;
 
 
 public class MovieAPI {
     final OkHttpClient client = new OkHttpClient();
     final private String FHurl = "https://prog2.fh-campuswien.ac.at/";
 
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapter(Movie_old.class, new MovieAdapter())  // Use the custom adapter
-            .create();
+
 
     String run(String url) throws IOException {
         Request request = new Request.Builder()
@@ -34,7 +30,11 @@ public class MovieAPI {
     }
 
     public ArrayList<MovieEntity> getMovies() throws MovieApiException {
+
+
         String subUrl = FHurl + "movies";
+
+
         System.out.println(subUrl);
 
         try{
@@ -50,6 +50,8 @@ public class MovieAPI {
         } catch (IOException e) {
             throw new MovieApiException(e);
         }
+
+
 
 
     }
@@ -80,13 +82,4 @@ public class MovieAPI {
         return gson.fromJson(moviesAsString, listType);
     }
 
-
-    public Movie_old getMovie(UUID uuid) throws IOException {
-        String subUrl = FHurl + "movies/" + uuid;
-        System.out.println(subUrl);
-
-        String movieAsString = run(subUrl);
-
-        return gson.fromJson(movieAsString, Movie_old.class);
-    }
 }

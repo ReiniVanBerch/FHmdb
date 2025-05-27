@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.models.Movie_old;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,7 +12,7 @@ public class MovieEntity {
     @DatabaseField(generatedId = true)
     private long id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false) //unique = true
     protected String apiId;
 
     @DatabaseField(canBeNull = false)
@@ -107,26 +106,8 @@ public class MovieEntity {
         return genreList.toString();
     }
 
-    public List<MovieEntity> fromMovies (List<Movie_old> movieOlds) {
-        List<MovieEntity> movieEntities = new ArrayList<>();
 
-        for (Movie_old m : movieOlds) {
-            movieEntities.add(new MovieEntity(m.getId().toString(), m.getTitle(), m.getDescription(),
-                    m.getGenres().toString(), m.getReleaseYear(), m.getImgURL(), m.getLengthInMinutes(), m.getRating()));
-        }
 
-        return movieEntities;
-    }
-
-    public List<Movie_old> toMovies (List<MovieEntity> movieEntities) {
-
-        List<Movie_old> movieOlds = new ArrayList<>();
-        for (MovieEntity me : movieEntities) {
-            movieOlds.add(new Movie_old(UUID.fromString(me.getApiId()), me.getTitle(),  me.getGenresAsList(), me.getReleaseYear(),
-                    me.getDescription(), me.getImgUrl(), me.getLengthInMinutes(), me.getRating()));
-        }
-        return movieOlds;
-    }
 
 
 }
