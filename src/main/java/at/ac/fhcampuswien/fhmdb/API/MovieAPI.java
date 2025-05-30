@@ -29,18 +29,21 @@ public class MovieAPI {
         }
     }
 
-    public ArrayList<MovieEntity> getMovies() throws MovieApiException {
+    public ArrayList<MovieEntity> getMovies(String query, String genre, int releaseYear, double ratingFrom) throws MovieApiException{
+        String base = FHurl + "movies";
+
+        String fullURL = new MovieAPIRequestBuilder(base)
+                            .setQuery(query)
+                            .setGenre(genre)
+                            .setReleaseYear(releaseYear)
+                            .setRatingFrom(ratingFrom)
+                            .build();
+
+        System.out.println(fullURL);
 
 
-        String subUrl = FHurl + "movies";
-
-
-        System.out.println(subUrl);
-
-        try{
-            String moviesAsString = run(subUrl);
-
-            //Tokenizes the typeToken so we have a specific listType for the api
+        try {
+            String moviesAsString = run(fullURL);
 
             Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
             Gson gson = new GsonBuilder()
@@ -48,38 +51,10 @@ public class MovieAPI {
                     .create();
             return gson.fromJson(moviesAsString, listType);
         } catch (IOException e) {
-            throw new MovieApiException(e);
+            throw new MovieApiException(e.getMessage());
         }
 
 
-
-
-    }
-
-    public ArrayList<MovieEntity> getMovies(String query, String genre, int releaseYear, double ratingFrom) throws IOException {
-        String subUrl = FHurl + "movies";
-
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(subUrl).newBuilder();
-
-
-        if(query != "" && query != null) {urlBuilder.addQueryParameter("query", query);}
-        if(genre != "" && genre != null) {urlBuilder.addQueryParameter("genre", genre);}
-        if(releaseYear != 0) {urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));}
-        if(ratingFrom != 0) {urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));}
-
-
-        System.out.println(urlBuilder.build());
-
-
-        String moviesAsString = run(urlBuilder.build().toString());
-
-        //Tokenizes the typeToken so we have a specific listType for the api
-
-        Type listType = new TypeToken<ArrayList<MovieEntity>>(){}.getType();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(MovieEntity.class, new MovieAdapter())
-                .create();
-        return gson.fromJson(moviesAsString, listType);
     }
 
 }

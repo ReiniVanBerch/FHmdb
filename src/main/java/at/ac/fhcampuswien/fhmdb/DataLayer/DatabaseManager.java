@@ -72,7 +72,7 @@ public class DatabaseManager {
             if(movieDao.queryForAll().isEmpty()){
                 try {
                     MovieAPI api = new MovieAPI();
-                    this.getMovieDao().create(api.getMovies());
+                    this.getMovieDao().create(api.getMovies("", "", 0, 0));
                 } catch (MovieApiException e) {
                     throw new MovieApiException("fetching initial movies failed in create tables in DatabaseManager " + e.getMessage());
                 } catch (SQLException e) {
