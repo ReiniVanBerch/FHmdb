@@ -1,10 +1,7 @@
 package at.ac.fhcampuswien.fhmdb;
 
 
-import at.ac.fhcampuswien.fhmdb.Controller.ControllerBase;
-import at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseHome;
-import at.ac.fhcampuswien.fhmdb.Controller.ControllerBaseWatchlist;
-import at.ac.fhcampuswien.fhmdb.Controller.ControllerScene;
+import at.ac.fhcampuswien.fhmdb.Controller.*;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
@@ -46,6 +43,8 @@ public class FhmdbApplication extends Application {
     }
 
     public static Parent makeRoot() throws MovieApiException, DatabaseException {
+
+        ControllerFactory factory = new ControllerFactory();
         FXMLLoader sceneLoader = new FXMLLoader(FhmdbApplication.class.getResource( "base.fxml"));
         FXMLLoader homeLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
         FXMLLoader watchlistLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view-watchlist.fxml"));
@@ -53,6 +52,13 @@ public class FhmdbApplication extends Application {
         ControllerScene sceneController = new ControllerScene();
         ControllerBaseHome homeController = new ControllerBaseHome();
         ControllerBaseWatchlist watchlistController = new ControllerBaseWatchlist();
+        sceneLoader.setControllerFactory(factory);
+        homeLoader.setControllerFactory(factory);
+        watchlistLoader.setControllerFactory(factory);
+        infoLoader.setControllerFactory(factory);
+
+
+
 
         homeController.tab2 = watchlistController;
 
