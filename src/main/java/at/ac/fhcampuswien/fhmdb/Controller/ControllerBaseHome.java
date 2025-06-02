@@ -9,6 +9,7 @@ import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
+import at.ac.fhcampuswien.fhmdb.Observer;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXComboBox;
@@ -26,7 +27,8 @@ import java.util.ResourceBundle;
 
 
 
-public class ControllerBaseHome extends ControllerBase {
+public class ControllerBaseHome extends ControllerBase implements Observer {
+
 
     @FXML
     public JFXListView movieListView;
@@ -57,11 +59,8 @@ public class ControllerBaseHome extends ControllerBase {
 
                 try {
                     WatchlistRepository watchlistRepository = WatchlistRepository.getInstance();
-                    if (!watchlistRepository.getWatchlist().contains(watchlistMovieEntity)){
-                        watchlistRepository.addToWatchlist(watchlistMovieEntity);
-                        AlertHelper.buildAlert(movie.getTitle(), "Added "+ movie.getTitle()+" to Watchlist");
-                        tab2.update();
-                    }
+                    watchlistRepository.addToWatchlist(watchlistMovieEntity);
+                    tab2.update(); // (keep this if you want instant list refresh)
 
 
                 } catch (DatabaseException e) {
@@ -75,6 +74,8 @@ public class ControllerBaseHome extends ControllerBase {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        WatchlistRepository.getInstance().addObserver(this);
+
 
         observableMovies.clear();
         observableMovies.addAll(allMovies);
@@ -176,4 +177,11 @@ public class ControllerBaseHome extends ControllerBase {
     }
 
 
+
+    @Override
+    public void update(Object event) {
+        AlertHelper.buildAlert("Watchlist", event.toString());
+        // You can also call tab2.update(); here if you want the watchlist view to update automatically
+        // For example: if (tab2 != null) tab2.update();
+    }
 }
