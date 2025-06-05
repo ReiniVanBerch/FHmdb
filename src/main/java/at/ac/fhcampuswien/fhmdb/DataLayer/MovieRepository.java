@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
-import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -45,7 +44,7 @@ public class MovieRepository {
         try {
             List<MovieEntity> all = dao.queryForAll();
             return all.isEmpty() ? null : all.get(0);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new DatabaseException("Fehler beim Abrufen eines Films aus der Datenbank. " + e);
         }
 
@@ -69,7 +68,7 @@ public class MovieRepository {
                 count++;
             }
             return count;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new DatabaseException("Fehler beim Speichern der Filme in der DAtenbank. " + e);
         }
 

@@ -20,6 +20,7 @@ module at.ac.fhcampuswien.fhmdb {
     exports at.ac.fhcampuswien.fhmdb.DataLayer;
     opens at.ac.fhcampuswien.fhmdb.DataLayer;
     exports at.ac.fhcampuswien.fhmdb.Exception;
+    exports at.ac.fhcampuswien.fhmdb.sorting;
 
     opens at.ac.fhcampuswien.fhmdb.Controller to javafx.fxml;
 }
