@@ -5,6 +5,9 @@ import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.DataLayer.DatabaseManager;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
+import at.ac.fhcampuswien.fhmdb.sorting.SortContext;
+import at.ac.fhcampuswien.fhmdb.sorting.SortedAscState;
+import at.ac.fhcampuswien.fhmdb.sorting.SortedDescState;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +18,10 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import at.ac.fhcampuswien.fhmdb.sorting.*;
 
 public abstract class ControllerBase implements Initializable {
 
@@ -42,6 +44,8 @@ public abstract class ControllerBase implements Initializable {
     public List<MovieEntity> allMovies;
 
     protected final ObservableList<MovieEntity> observableMovies = FXCollections.observableArrayList();
+
+    public final SortContext sortContext = new SortContext();
 
     public ControllerBase() {
         try {
@@ -69,17 +73,26 @@ public abstract class ControllerBase implements Initializable {
 
     public void initializeUI(ClickEventHandler clickEventHandler) {
 
-
-
-
         //set initial sort button text
 
         //watchListBtn.setOnAction(actionEvent -> watchListBtnClicked());
     }
 
-
-
+    // *** Sorting eingefügt ***
     public void sort() {
+        if (sortBtn.getText().equals("Sort (asc)")) {
+            sortContext.setState(new SortedAscState());
+            sortBtn.setText("Sort (desc)");
+        } else {
+            sortContext.setState(new SortedDescState());
+            sortBtn.setText("Sort (asc)");
+        }
+
+        List<MovieEntity> sorted = sortContext.sort(new ArrayList<>(observableMovies));
+        observableMovies.setAll(sorted);
+    }
+
+   /* public void sort() {
         if(sortBtn.getText().equals("Sort (asc)")) {
             sortAscending(observableMovies);
             sortBtn.setText("Sort (desc)");
@@ -89,6 +102,8 @@ public abstract class ControllerBase implements Initializable {
         }
     }
 
+
+
     public void sortAscending(ObservableList<MovieEntity> list) {
         list.sort(Comparator.comparing(MovieEntity::getTitle));
     }
@@ -96,6 +111,8 @@ public abstract class ControllerBase implements Initializable {
     public void sortDescending(ObservableList<MovieEntity> list) {
         list.sort(Comparator.comparing(MovieEntity::getTitle).reversed());
     }
+
+     */
 
 
 

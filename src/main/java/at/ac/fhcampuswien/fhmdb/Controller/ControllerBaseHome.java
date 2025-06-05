@@ -3,17 +3,14 @@ package at.ac.fhcampuswien.fhmdb.Controller;
 import at.ac.fhcampuswien.fhmdb.API.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
-
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
-
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
-
-
 import at.ac.fhcampuswien.fhmdb.Observer;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
-import at.ac.fhcampuswien.fhmdb.sorting.*;
+import at.ac.fhcampuswien.fhmdb.sorting.SortContext;
+import at.ac.fhcampuswien.fhmdb.sorting.SortedAscState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -21,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -43,10 +41,10 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
 
     public ControllerBaseWatchlist tab2;
 
+    final SortContext sortContext = new SortContext();
+
     public ControllerBaseHome(){
         super();
-
-
 
 
         clickEventHandler = (clickedItem) ->
@@ -77,8 +75,12 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
 
         observableMovies.clear();
         observableMovies.addAll(allMovies);
-        sortAscending(observableMovies);
+        //sortAscending(observableMovies);
 
+        // *** Sorting ***
+        sortContext.setState(new SortedAscState());
+        List<MovieEntity> sorted = sortContext.sort(new ArrayList<>(observableMovies));
+        observableMovies.setAll(sorted);
 
 
         initializeUI(this.clickEventHandler);
@@ -93,7 +95,7 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
         searchBtn.setOnAction(actionEvent -> searchBtnClicked());
 
         // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
+        movieListView.setItems(observableMovies);   // set data of observable list to list view ***
 
         movieListView.setCellFactory(movieListView -> new MovieCell(clickEventHandler)); // use custom cell factory to display data
 
@@ -182,4 +184,35 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
         // You can also call tab2.update(); here if you want the watchlist view to update automatically
         // For example: if (tab2 != null) tab2.update();
     }
+
+
+
+    /*
+   public void updateMovieListView() {
+        List<MovieEntity> sorted = sortContext.sort(new ArrayList<>(observableMovies));
+        observableMovies.setAll(sorted);
+    }
+
+
+    @FXML
+    public void sortAsc() {
+        sortContext.setState(new SortedAscState());
+        updateMovieListView();
+    }
+
+    @FXML
+    public void sortDesc() {
+        sortContext.setState(new SortedDescState());
+        updateMovieListView();
+    }
+
+    @FXML
+    public void sortReset() {
+        sortContext.setState(new NotSortedState());
+        updateMovieListView();
+    }
+
+     */
+
+
 }

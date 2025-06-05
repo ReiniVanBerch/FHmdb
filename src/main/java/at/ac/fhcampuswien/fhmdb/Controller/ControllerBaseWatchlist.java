@@ -3,12 +3,11 @@ package at.ac.fhcampuswien.fhmdb.Controller;
 import at.ac.fhcampuswien.fhmdb.AlertHelper;
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.DataLayer.MovieEntity;
-import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exception.MovieApiException;
-import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
+import at.ac.fhcampuswien.fhmdb.sorting.NotSortedState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCellWatchlist;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
@@ -96,10 +95,14 @@ public class ControllerBaseWatchlist extends ControllerBase{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        sortAscending(observableMovies);
+        //sortAscending(observableMovies);
+
+        // *** Sorting - wird unsortiert angezeigt ***
+        sortContext.setState(new NotSortedState());
+        List<MovieEntity> sorted = sortContext.sort(new ArrayList<>(observableMovies));
+        observableMovies.setAll(sorted);
 
         initializeUI(onRemoveFromWatchlistClicked);
-
 
     }
 
