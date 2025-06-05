@@ -19,6 +19,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import at.ac.fhcampuswien.fhmdb.sorting.*;
+
 public abstract class ControllerBase implements Initializable {
 
     @FXML
