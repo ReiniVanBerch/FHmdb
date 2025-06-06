@@ -10,7 +10,6 @@ import at.ac.fhcampuswien.fhmdb.Exception.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Observer;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.sorting.SortContext;
-import at.ac.fhcampuswien.fhmdb.sorting.SortedAscState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -41,11 +40,12 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
 
     public ControllerBaseWatchlist tab2;
 
-    final SortContext sortContext = new SortContext();
+
 
     public ControllerBaseHome(){
         super();
 
+        final SortContext sortContext = new SortContext();
 
         clickEventHandler = (clickedItem) ->
         {
@@ -78,7 +78,7 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
         //sortAscending(observableMovies);
 
         // *** Sorting ***
-        sortContext.setState(new SortedAscState());
+        //sortContext.setState(new NotSortedState());
         List<MovieEntity> sorted = sortContext.sort(new ArrayList<>(observableMovies));
         observableMovies.setAll(sorted);
 
@@ -161,9 +161,13 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
             //dbm.getMovieDao().delete(observableMovies);
             List<MovieEntity> movies = api.getMovies(title, genre, releaseYear, rating);
 
-            observableMovies.clear();
-            observableMovies.addAll(movies);
+            //observableMovies.clear();
+            //observableMovies.addAll(movies);
 
+            // *** Sorting ***
+            observableMovies.clear();
+            observableMovies.addAll(sortContext.sort(new ArrayList<>(movies)));
+            System.out.println("Aktueller SortState: " + sortContext.getCurrentState().getClass().getSimpleName()); //Test
 
 //            dbm.getMovieDao().clearObjectCache();
 //            dbm.getMovieDao().create(movies);

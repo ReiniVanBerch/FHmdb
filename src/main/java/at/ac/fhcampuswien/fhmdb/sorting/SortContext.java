@@ -18,6 +18,10 @@ public class SortContext {
     public List<MovieEntity> sort(List<MovieEntity> movies) {
         return currentState.sort(movies);
     }
+
+    public MovieSortState getCurrentState() {
+        return currentState;
+    }
 }
 
 
