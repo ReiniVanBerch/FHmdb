@@ -185,8 +185,7 @@ public class ControllerBaseHome extends ControllerBase implements Observer {
     @Override
     public void update(Object event) {
         AlertHelper.buildAlert("Watchlist", event.toString());
-        // You can also call tab2.update(); here if you want the watchlist view to update automatically
-        // For example: if (tab2 != null) tab2.update();
+
     }
 
 

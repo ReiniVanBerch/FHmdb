@@ -38,7 +38,9 @@ public class WatchlistRepository implements Observable {
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
-            long count = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
+            long count = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();  //boolean exists
+            //List<WatchlistMovieEntity> entries = dao.queryForEq("apiId", movie.getApiId());
+            //if (entries.isEmpty()) {
             if (count == 0) {
                 int result = dao.create(movie);
                 notifyObservers("Movie successfully added to watchlist!");
